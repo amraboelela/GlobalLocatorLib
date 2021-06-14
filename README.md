@@ -1,3 +1,6 @@
 # GlobalLocator
 
-GL aka NAC, check [travelgis](http://www.travelgis.com/map.asp)
+For more info about GL (Global Locator) aka NAC, check [travelgis](http://www.travelgis.com/map.asp)
+
+## NAC and Universal Address
+A Natural Area Code (NAC) can represent both an area or a location anywhere in the world. A two, four, six, eight or ten character NAC represents respectively an area about 1000km X 700km (like a province), 33km X 23km (like a city), one square kilometer (like a street block), 35m X 25m (like a building) or one square meter anywhere in the world. Since an eight or ten character NAC has reached the resolution of a traditional address, it is also called a Universal Address, for example, NAC: 8KDB PGFD is the Universal Address of Washington Monument. Using a NAC instead of a traditional address to specify a location can reduce 80% of key input, avoid difficulties in inputting addresses with foreign characters, eliminate the needs of address databases and specify all locations no matter whether there are traditional addresses or not. A group of neighboring NACs can be combined into one NAC such as: 8C Q8 plus 8D Q8 plus 8F Q8 can be written as 8C-F Q8. If the character after the hyphen represents a number smaller than the character before the hyphen, it means a rotation, e.g., 8CX-2 Q8S represents 8CX Q8S plus 8CZ Q8S plus 8D1 Q8S plus 8D2 Q8S (note there are no vowels: A, E, I, O, U, Y in any NAC). A NAC like 8C0-Z Q8D can be simplified to 8C Q8D. Therefore, a NAC can be used to represent various rectangular areas anywhere in the world. 

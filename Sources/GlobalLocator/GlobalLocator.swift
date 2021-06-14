@@ -67,39 +67,45 @@ public class GlobalLocator {
         return ""
     }
     
-    func mergeCodes(code1: String, code2: String) -> String {
+    func mergeCodes(code1: String, code2: String, averageCode: String) -> String {
         var result = ""
         var char1 = ""
+        var char2 = ""
         for i in 0..<code1.count {
             if i < code2.count {
                 char1 = code1[i]
-                let char2 = code2[i]
+                char2 = code2[i]
                 if char1 == char2 {
                     result = result + char1
+                } else {
+                    break
                 }
             }
         }
-        if result.count < code1.count {
-            char1 = code1[result.count]
-            result = result + nextLetter(char1)
+        if result.count < averageCode.count {
+            result = result + averageCode[result.count]
         }
         return result
     }
     
     public func codeFor(longitude1: Double, latitude1: Double,
                         longitude2: Double, latitude2: Double) -> String {
+        let longitudeAverage = (longitude1 + longitude2) / 2.0
+        let latitudeAverage = (latitude1 + latitude2) / 2.0
         let longitudeCode1 = codeFor(number: longitude1, max: 180)
         let longitudeCode2 = codeFor(number: longitude2, max: 180)
         let latitudeCode1 = codeFor(number: latitude1, max: 90)
         let latitudeCode2 = codeFor(number: latitude2, max: 90)
-        var code1 = mergeCodes(code1: longitudeCode1, code2: longitudeCode2)
-        var code2 = mergeCodes(code1: latitudeCode1, code2: latitudeCode2)
-        if code1.count < code2.count {
-            code1 = code1 + "0"
+        let longitudeAverageCode = codeFor(number: longitudeAverage, max: 180)
+        let latitudeAverageCode = codeFor(number: latitudeAverage, max: 90)
+        var longitudeCode = mergeCodes(code1: longitudeCode1, code2: longitudeCode2, averageCode: longitudeAverageCode)
+        var latitudeCode = mergeCodes(code1: latitudeCode1, code2: latitudeCode2, averageCode: latitudeAverageCode)
+        if longitudeCode.count < latitudeCode.count {
+            longitudeCode = longitudeCode + "0"
         }
-        if code2.count < code1.count {
-            code2 = code2 + "0"
+        if latitudeCode.count < longitudeCode.count {
+            latitudeCode = latitudeCode + "0"
         }
-        return code1 + " " + code2
+        return longitudeCode + " " + latitudeCode
     }
 }
