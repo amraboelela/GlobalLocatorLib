@@ -2,7 +2,7 @@
     @testable import GlobalLocator
 
     final class GlobalLocatorTests: XCTestCase {
-        func testCodeFor() {
+        func testCodeForLocation() {
             XCTAssertEqual(globalLocator.codeFor(location: CLLocationCoordinate2D(latitude: -90, longitude: -180)),
                            "0 0")
             XCTAssertEqual(globalLocator.codeFor(location: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
@@ -21,41 +21,12 @@
                            "SNZZZ PMGZZ") // Beijing, China
             XCTAssertEqual(globalLocator.codeFor(location: CLLocationCoordinate2D(latitude: 34.099999999999994, longitude: -118.2)),
                            "54GZZ NNH00") // Los Angeles
+            XCTAssertEqual(globalLocator.codeFor(location: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275)),
+                           "GZNF3 RKJ2G") // London
             
-            var location = globalLocator.locationFor(code: "0 0")
-            XCTAssertEqual(location.latitude, -90)
-            XCTAssertEqual(location.longitude, -180)
-            location = globalLocator.locationFor(code: "H H")
-            XCTAssertEqual(location.latitude, 0)
-            XCTAssertEqual(location.longitude, 0)
-            location = globalLocator.locationFor(code: "ZZZZZ ZZZZZ")
-            XCTAssertEqual(location.latitude, 90, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, 180, accuracy: 0.0001)
-            // Cairo, Egypt
-            location = globalLocator.locationFor(code: "KLH00 N0GZZ")
-            XCTAssertEqual(location.latitude, 30.099999999999994, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, 31.39999999999999, accuracy: 0.0001)
-            // Washington DC
-            location = globalLocator.locationFor(code: "8KDBH PGFDH")
-            XCTAssertEqual(location.latitude, 38.889444444444436, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, -77.03533333333331, accuracy: 0.0001)
-            // Delhi, India
-            location = globalLocator.locationFor(code: "PFGZZ MRGZZ")
-            XCTAssertEqual(location.latitude, 28.69999999999999, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, 77.39999999999998, accuracy: 0.0001)
-            // New York
-            location = globalLocator.locationFor(code: "8TGZZ PRGZZ")
-            XCTAssertEqual(location.latitude, 40.69999999999999, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, -73.8, accuracy: 0.0001)
-            // Beijing, China
-            location = globalLocator.locationFor(code: "SNZZZ PMGZZ")
-            XCTAssertEqual(location.latitude, 39.89999999999998, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, 116.4, accuracy: 0.0001)
-            // Los Angeles
-            location = globalLocator.locationFor(code: "54GZZ NNH00")
-            XCTAssertEqual(location.latitude, 34.099999999999994, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, -118.2, accuracy: 0.0001)
-            
+        }
+        
+        func testCodeForLocation1Location2() {
             // Los Angeles
             XCTAssertEqual(globalLocator.codeFor(location1: CLLocationCoordinate2D(latitude: 33.917, longitude: -118.434),
                                                  location2: CLLocationCoordinate2D(latitude: 34.292, longitude: -117.963)),
@@ -92,5 +63,59 @@
             XCTAssertEqual(globalLocator.codeFor(location1: CLLocationCoordinate2D(latitude: 37.309, longitude: -121.914),
                                                  location2: CLLocationCoordinate2D(latitude: 37.357, longitude: -121.857)),
                            "4T8 P6M")
+        }
+        
+        func testLocationForCode() {
+            var location = globalLocator.locationFor(code: "0 0")
+            XCTAssertEqual(location.latitude, -90)
+            XCTAssertEqual(location.longitude, -180)
+            location = globalLocator.locationFor(code: "H H")
+            XCTAssertEqual(location.latitude, 0)
+            XCTAssertEqual(location.longitude, 0)
+            location = globalLocator.locationFor(code: "ZZZZZ ZZZZZ")
+            XCTAssertEqual(location.latitude, 90, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 180, accuracy: 0.0001)
+            // Cairo, Egypt
+            location = globalLocator.locationFor(code: "KLH00 N0GZZ")
+            XCTAssertEqual(location.latitude, 30.099999999999994, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 31.39999999999999, accuracy: 0.0001)
+            // Washington DC
+            location = globalLocator.locationFor(code: "8KDBH PGFDH")
+            XCTAssertEqual(location.latitude, 38.889444444444436, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, -77.03533333333331, accuracy: 0.0001)
+            // Delhi, India
+            location = globalLocator.locationFor(code: "PFGZZ MRGZZ")
+            XCTAssertEqual(location.latitude, 28.69999999999999, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 77.39999999999998, accuracy: 0.0001)
+            // New York
+            location = globalLocator.locationFor(code: "8TGZZ PRGZZ")
+            XCTAssertEqual(location.latitude, 40.69999999999999, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, -73.8, accuracy: 0.0001)
+            // Beijing, China
+            location = globalLocator.locationFor(code: "SNZZZ PMGZZ")
+            XCTAssertEqual(location.latitude, 39.89999999999998, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 116.4, accuracy: 0.0001)
+            // Los Angeles
+            location = globalLocator.locationFor(code: "54GZZ NNH00")
+            XCTAssertEqual(location.latitude, 34.099999999999994, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, -118.2, accuracy: 0.0001)
+        }
+        
+        func testSpanForCode() {
+            var span = globalLocator.spanFor(code: "4 P")
+            XCTAssertEqual(span.latitudeDelta, 6.0)
+            XCTAssertEqual(span.longitudeDelta, 12.0)
+            span = globalLocator.spanFor(code: "4T P6")
+            XCTAssertEqual(span.latitudeDelta, 0.2)
+            XCTAssertEqual(span.longitudeDelta, 0.4)
+            span = globalLocator.spanFor(code: "4T8 P6M")
+            XCTAssertEqual(span.latitudeDelta, 0.0067, accuracy: 0.0001)
+            XCTAssertEqual(span.longitudeDelta, 0.0133, accuracy: 0.0001)
+            span = globalLocator.spanFor(code: "8KDB PGFD")
+            XCTAssertEqual(span.latitudeDelta, 0.000222, accuracy: 0.000001)
+            XCTAssertEqual(span.longitudeDelta, 0.000444, accuracy: 0.000001)
+            span = globalLocator.spanFor(code: "54GZZ NNH00")
+            XCTAssertEqual(span.latitudeDelta, 0.0000074, accuracy: 0.0000001)
+            XCTAssertEqual(span.longitudeDelta, 0.0000148, accuracy: 0.0000001)
         }
     }

@@ -9,6 +9,7 @@
 //
 
 import CoreLocation
+import MapKit
 
 public let globalLocator = GlobalLocator()
 
@@ -72,13 +73,29 @@ public class GlobalLocator {
     }
     
     public func locationFor(code: String) -> CLLocationCoordinate2D {
-        let codes = code.split(separator: " ")
-        guard codes.count == 2 else {
+        let theCodes = code.split(separator: " ")
+        guard theCodes.count == 2 else {
             return CLLocationCoordinate2D(latitude: 0, longitude: 0)
         }
-        let longitude = numberFor(code: String(codes[0]), max: 180)
-        let latitude = numberFor(code: String(codes[1]), max: 90)
+        let longitude = numberFor(code: String(theCodes[0]), max: 180)
+        let latitude = numberFor(code: String(theCodes[1]), max: 90)
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    public func spanFor(code: String) -> MKCoordinateSpan {
+        var longitudeUnit = 360.0 / Double(codes.count)
+        var latitudeUnit = 180.0 / Double(codes.count)
+        let theCodes = code.split(separator: " ")
+        guard theCodes.count == 2 else {
+            return MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+        }
+        for _ in 1..<theCodes[0].count {
+            longitudeUnit = longitudeUnit / Double(codes.count)
+        }
+        for _ in 1..<theCodes[1].count {
+            latitudeUnit = latitudeUnit / Double(codes.count)
+        }
+        return MKCoordinateSpan(latitudeDelta: latitudeUnit, longitudeDelta: longitudeUnit)
     }
     
     func codeFor(longitude: Double, latitude: Double) -> String {
