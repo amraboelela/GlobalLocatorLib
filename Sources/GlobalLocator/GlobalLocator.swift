@@ -95,7 +95,7 @@ public class GlobalLocator {
         for _ in 1..<theCodes[1].count {
             latitudeUnit = latitudeUnit / Double(codes.count)
         }
-        return MKCoordinateSpan(latitudeDelta: latitudeUnit * 2.0, longitudeDelta: longitudeUnit * 2.0)
+        return MKCoordinateSpan(latitudeDelta: latitudeUnit * 4.0, longitudeDelta: longitudeUnit * 4.0)
     }
     
     func codeFor(longitude: Double, latitude: Double) -> String {
