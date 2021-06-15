@@ -17,6 +17,30 @@ public class GlobalLocator {
     let codes = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F",
     "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z"]
     let forbiddenLetters: Set<String> = ["A", "E", "I", "O", "U", "Y"]
+    let codeIndexes = ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "B": 10, "C": 11, "D": 12, "F": 13,
+                       "G": 14, "H": 15, "J": 16, "K": 17, "L": 18, "M": 19, "N": 20, "P": 21, "Q": 22, "R": 23, "S": 24, "T": 25, "V": 26, "W": 27, "X": 28, "Z": 29]
+    
+    func numberFor(code: String, max: Double) -> Double {
+        var result = 0.0
+        guard code.count > 0 else {
+            return -1.0
+        }
+        var unit = max * 2 / Double(codes.count)
+        let firstChar = code[0]
+        var decimalIndex = Double(codeIndexes[firstChar] ?? 0)
+        //var ratio = decimalIndex / Double(codes.count)
+        var diff = decimalIndex * unit //ratio * max * 2
+        let number = diff - max
+        result = result + number
+        for i in 1..<code.count {
+            let char = code[i]
+            decimalIndex = Double(codeIndexes[char] ?? 0)
+            unit = unit / Double(codes.count)
+            diff = decimalIndex * unit
+            result = result + diff
+        }
+        return result
+    }
     
     func codeFor(number: Double, max: Double) -> String {
         var diff = number + max
@@ -45,6 +69,16 @@ public class GlobalLocator {
     
     public func codeFor(location: CLLocationCoordinate2D) -> String {
         return codeFor(longitude: location.longitude, latitude: location.latitude)
+    }
+    
+    public func locationFor(code: String) -> CLLocationCoordinate2D {
+        let codes = code.split(separator: " ")
+        guard codes.count == 2 else {
+            return CLLocationCoordinate2D(latitude: 0, longitude: 0)
+        }
+        let longitude = numberFor(code: String(codes[0]), max: 180)
+        let latitude = numberFor(code: String(codes[1]), max: 90)
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
     func codeFor(longitude: Double, latitude: Double) -> String {
@@ -99,7 +133,7 @@ public class GlobalLocator {
     }
     
     func codeFor(longitude1: Double, latitude1: Double,
-                        longitude2: Double, latitude2: Double) -> String {
+                longitude2: Double, latitude2: Double) -> String {
         let longitudeAverage = (longitude1 + longitude2) / 2.0
         let latitudeAverage = (latitude1 + latitude2) / 2.0
         let longitudeCode1 = codeFor(number: longitude1, max: 180)

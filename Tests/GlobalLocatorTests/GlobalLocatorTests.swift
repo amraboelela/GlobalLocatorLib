@@ -22,6 +22,40 @@
             XCTAssertEqual(globalLocator.codeFor(location: CLLocationCoordinate2D(latitude: 34.099999999999994, longitude: -118.2)),
                            "54GZZ NNH00") // Los Angeles
             
+            var location = globalLocator.locationFor(code: "0 0")
+            XCTAssertEqual(location.latitude, -90)
+            XCTAssertEqual(location.longitude, -180)
+            location = globalLocator.locationFor(code: "H H")
+            XCTAssertEqual(location.latitude, 0)
+            XCTAssertEqual(location.longitude, 0)
+            location = globalLocator.locationFor(code: "ZZZZZ ZZZZZ")
+            XCTAssertEqual(location.latitude, 90, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 180, accuracy: 0.0001)
+            // Cairo, Egypt
+            location = globalLocator.locationFor(code: "KLH00 N0GZZ")
+            XCTAssertEqual(location.latitude, 30.099999999999994, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 31.39999999999999, accuracy: 0.0001)
+            // Washington DC
+            location = globalLocator.locationFor(code: "8KDBH PGFDH")
+            XCTAssertEqual(location.latitude, 38.889444444444436, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, -77.03533333333331, accuracy: 0.0001)
+            // Delhi, India
+            location = globalLocator.locationFor(code: "PFGZZ MRGZZ")
+            XCTAssertEqual(location.latitude, 28.69999999999999, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 77.39999999999998, accuracy: 0.0001)
+            // New York
+            location = globalLocator.locationFor(code: "8TGZZ PRGZZ")
+            XCTAssertEqual(location.latitude, 40.69999999999999, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, -73.8, accuracy: 0.0001)
+            // Beijing, China
+            location = globalLocator.locationFor(code: "SNZZZ PMGZZ")
+            XCTAssertEqual(location.latitude, 39.89999999999998, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 116.4, accuracy: 0.0001)
+            // Los Angeles
+            location = globalLocator.locationFor(code: "54GZZ NNH00")
+            XCTAssertEqual(location.latitude, 34.099999999999994, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, -118.2, accuracy: 0.0001)
+            
             // Los Angeles
             XCTAssertEqual(globalLocator.codeFor(location1: CLLocationCoordinate2D(latitude: 33.917, longitude: -118.434),
                                                  location2: CLLocationCoordinate2D(latitude: 34.292, longitude: -117.963)),
