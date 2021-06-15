@@ -8,6 +8,8 @@
 //  See LICENCE for details.
 //
 
+import CoreLocation
+
 public let globalLocator = GlobalLocator()
 
 public class GlobalLocator {
@@ -41,7 +43,11 @@ public class GlobalLocator {
         return result
     }
     
-    public func codeFor(longitude: Double, latitude: Double) -> String {
+    public func codeFor(location: CLLocationCoordinate2D) -> String {
+        return codeFor(longitude: location.longitude, latitude: location.latitude)
+    }
+    
+    func codeFor(longitude: Double, latitude: Double) -> String {
         return codeFor(number: longitude, max: 180) + " " + codeFor(number: latitude, max: 90)
     }
     
@@ -88,7 +94,11 @@ public class GlobalLocator {
         return result
     }
     
-    public func codeFor(longitude1: Double, latitude1: Double,
+    public func codeFor(location1: CLLocationCoordinate2D, location2: CLLocationCoordinate2D) -> String {
+        return codeFor(longitude1: location1.longitude, latitude1: location1.latitude, longitude2: location2.longitude, latitude2: location2.latitude)
+    }
+    
+    func codeFor(longitude1: Double, latitude1: Double,
                         longitude2: Double, latitude2: Double) -> String {
         let longitudeAverage = (longitude1 + longitude2) / 2.0
         let latitudeAverage = (latitude1 + latitude2) / 2.0
