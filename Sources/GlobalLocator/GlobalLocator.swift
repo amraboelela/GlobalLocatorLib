@@ -13,6 +13,12 @@ import MapKit
 
 public let globalLocator = GlobalLocator()
 
+
+enum MeasureType {
+    case longitude
+    case latitude
+}
+
 public class GlobalLocator {
     
     let codes = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F",
@@ -20,30 +26,31 @@ public class GlobalLocator {
     let forbiddenLetters: Set<String> = ["A", "E", "I", "O", "U", "Y"]
     let codeIndexes = ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "B": 10, "C": 11, "D": 12, "F": 13,
                        "G": 14, "H": 15, "J": 16, "K": 17, "L": 18, "M": 19, "N": 20, "P": 21, "Q": 22, "R": 23, "S": 24, "T": 25, "V": 26, "W": 27, "X": 28, "Z": 29]
+    var spans = [Int:Double]()
     
-    func numberFor(code: String, max: Double) -> Double {
-        var result = 0.0
+    func numberFor(code: String, type: MeasureType) -> Double {
         guard code.count > 0 else {
             return -1.0
         }
+        let max = type == .longitude ? 180.0 : 90.0
         var unit = max * 2 / Double(codes.count)
-        let firstChar = code[0]
-        var decimalIndex = Double(codeIndexes[firstChar] ?? 0)
-        //var ratio = decimalIndex / Double(codes.count)
-        var diff = decimalIndex * unit //ratio * max * 2
-        let number = diff - max
-        result = result + number
+        var char = code[0]
+        var decimalIndex = Double(codeIndexes[char] ?? 0)
+        var diff = decimalIndex * unit
+        var result = diff - max
         for i in 1..<code.count {
-            let char = code[i]
+            char = code[i]
             decimalIndex = Double(codeIndexes[char] ?? 0)
             unit = unit / Double(codes.count)
             diff = decimalIndex * unit
             result = result + diff
         }
+        result = result + unit / 2.0
         return result
     }
     
-    func codeFor(number: Double, max: Double) -> String {
+    func codeFor(number: Double, type: MeasureType) -> String {
+        let max = type == .longitude ? 180.0 : 90.0
         var diff = number + max
         var ratio = diff / (max * 2)
         var decimalIndex = ratio * Double(codes.count)
@@ -83,7 +90,8 @@ public class GlobalLocator {
             location2: CLLocationCoordinate2D(
                 latitude: region.center.latitude + latitudeDiff,
                 longitude: region.center.longitude + longitudeDiff
-            ))
+            )
+        )
     }
     
     public func locationFor(code: String) -> CLLocationCoordinate2D {
@@ -91,29 +99,49 @@ public class GlobalLocator {
         guard theCodes.count == 2 else {
             return CLLocationCoordinate2D(latitude: 0, longitude: 0)
         }
-        let longitude = numberFor(code: String(theCodes[0]), max: 180)
-        let latitude = numberFor(code: String(theCodes[1]), max: 90)
+        let longitude = numberFor(code: String(theCodes[0]), type: .longitude)
+        let latitude = numberFor(code: String(theCodes[1]), type: .latitude)
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
     public func spanFor(code: String) -> MKCoordinateSpan {
-        var longitudeUnit = 360.0 / Double(codes.count)
-        var latitudeUnit = 180.0 / Double(codes.count)
         let theCodes = code.split(separator: " ")
         guard theCodes.count == 2 else {
             return MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         }
-        for _ in 1..<theCodes[0].count {
-            longitudeUnit = longitudeUnit / Double(codes.count)
+        return MKCoordinateSpan(
+            latitudeDelta: spanFor(codeCount: theCodes[0].count),
+            longitudeDelta: spanFor(codeCount: theCodes[1].count)
+        )
+    }
+    
+    func spanFor(codeCount: Int) -> Double {
+        if let span = spans[codeCount] {
+            return span
         }
-        for _ in 1..<theCodes[1].count {
-            latitudeUnit = latitudeUnit / Double(codes.count)
+        let max = 360.0
+        var unit = max / Double(codes.count)
+        for _ in 1..<codeCount {
+            unit = unit / Double(codes.count)
         }
-        return MKCoordinateSpan(latitudeDelta: latitudeUnit * 4.0, longitudeDelta: longitudeUnit * 4.0)
+        let span = unit * 4.0
+        spans[codeCount] = span
+        return span
+    }
+    
+    func codeSize(number1: Double, number2: Double) -> Int {
+        let diff = abs(number2 - number1)
+        for i in (2...5).reversed() {
+            let span = spanFor(codeCount: i)
+            if diff <= span {
+                return i
+            }
+        }
+        return 1
     }
     
     func codeFor(longitude: Double, latitude: Double) -> String {
-        return codeFor(number: longitude, max: 180) + " " + codeFor(number: latitude, max: 90)
+        return codeFor(number: longitude, type: .longitude) + " " + codeFor(number: latitude, type: .latitude)
     }
     
     func nextLetter(_ letter: String) -> String {
@@ -154,7 +182,17 @@ public class GlobalLocator {
             }
         }
         if result.count < averageCode.count {
-            result = result + averageCode[result.count]
+            var theCode = averageCode[result.count]
+            if result.count + 1 < averageCode.count {
+                let nextChar = averageCode[result.count + 1]
+                if let index = codeIndexes[nextChar], index > codes.count / 2 {
+                    let char = averageCode[result.count]
+                    if let charIndex = codeIndexes[char], charIndex < codes.count - 1 {
+                        theCode = codes[charIndex + 1]
+                    }
+                }
+            }
+            result = result + theCode
         }
         return result
     }
@@ -167,14 +205,13 @@ public class GlobalLocator {
                 longitude2: Double, latitude2: Double) -> String {
         let longitudeAverage = (longitude1 + longitude2) / 2.0
         let latitudeAverage = (latitude1 + latitude2) / 2.0
-        let longitudeCode1 = codeFor(number: longitude1, max: 180)
-        let longitudeCode2 = codeFor(number: longitude2, max: 180)
-        let latitudeCode1 = codeFor(number: latitude1, max: 90)
-        let latitudeCode2 = codeFor(number: latitude2, max: 90)
-        let longitudeAverageCode = codeFor(number: longitudeAverage, max: 180)
-        let latitudeAverageCode = codeFor(number: latitudeAverage, max: 90)
-        var longitudeCode = mergeCodes(code1: longitudeCode1, code2: longitudeCode2, averageCode: longitudeAverageCode)
-        var latitudeCode = mergeCodes(code1: latitudeCode1, code2: latitudeCode2, averageCode: latitudeAverageCode)
+        let longitudeAverageCode = codeFor(number: longitudeAverage, type: .longitude)
+        let latitudeAverageCode = codeFor(number: latitudeAverage, type: .latitude)
+        let longitudeSize = codeSize(number1: longitude1, number2: longitude2)
+        let latitudeSize = codeSize(number1: latitude1, number2: latitude2)
+        let theCodeSize = max(longitudeSize, latitudeSize)
+        var longitudeCode = longitudeAverageCode.substring(toIndex: theCodeSize)
+        var latitudeCode = latitudeAverageCode.substring(toIndex: theCodeSize)
         if longitudeCode.count < latitudeCode.count {
             longitudeCode = longitudeCode + "0"
         }
