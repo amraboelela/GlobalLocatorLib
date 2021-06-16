@@ -1,4 +1,6 @@
     import XCTest
+    import CoreLocation
+    import MapKit
     @testable import GlobalLocator
 
     final class GlobalLocatorTests: XCTestCase {
@@ -65,6 +67,126 @@
                            "4T8 P6M")
         }
         
+        func testCodeForRegion() {
+            // Los Angeles
+            var latitude1 = 33.917
+            var longitude1 = -118.434
+            var latitude2 = 34.292
+            var longitude2 = -117.963
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "54 NN")
+            // Beijing, China
+            latitude1 = 30.110
+            longitude1 = 119.971
+            latitude2 = 30.501
+            longitude2 = 120.434
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "T0 N1")
+            // Cairo, Egypt
+            latitude1 = 29.913
+            longitude1 = 31.169
+            latitude2 = 30.302
+            longitude2 = 31.638
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "KL N0")
+            // Johnny Depp's Private Island
+            latitude1 = 24.336
+            longitude1 = -76.612
+            latitude2 = 24.377
+            longitude2 = -76.563
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "8LH M1R")
+            // Johnny Depp's Private Island zoom 1
+            latitude1 = 24.344
+            longitude1 = -76.596
+            latitude2 = 24.367
+            longitude2 = -76.572
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "8LJ M1R")
+            // Johnny Depp's Private Island zoom 2
+            latitude1 = 24.350
+            longitude1 = -76.588
+            latitude2 = 24.362
+            longitude2 = -76.576
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "8LJ M1R")
+            // State of Florida
+            latitude1 = 25.055
+            longitude1 = -85.275
+            latitude2 = 31.042
+            longitude2 = -78.694
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "8 M")
+            // State of California
+            latitude1 = 33.229
+            longitude1 = -124.362
+            latitude2 = 42.520
+            longitude2 = -117.814
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "4 P")
+            // City of San Jose, CA
+            latitude1 = 37.309
+            longitude1 = -121.914
+            latitude2 = 37.357
+            longitude2 = -121.857
+            XCTAssertEqual(globalLocator.codeFor(
+                region: MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: (latitude1 + latitude2) / 2, longitude: (longitude1 + longitude2) / 2),
+                    span: MKCoordinateSpan(latitudeDelta: abs(latitude2 - latitude1), longitudeDelta: abs(longitude2 - longitude1)
+                    )
+                )
+            ),
+            "4T8 P6M")
+        }
+        
         func testLocationForCode() {
             var location = globalLocator.locationFor(code: "0 0")
             XCTAssertEqual(location.latitude, -90)
@@ -103,19 +225,19 @@
         
         func testSpanForCode() {
             var span = globalLocator.spanFor(code: "4 P")
-            XCTAssertEqual(span.latitudeDelta, 12.0)
-            XCTAssertEqual(span.longitudeDelta, 24.0)
+            XCTAssertEqual(span.latitudeDelta, 24.0)
+            XCTAssertEqual(span.longitudeDelta, 48.0)
             span = globalLocator.spanFor(code: "4T P6")
-            XCTAssertEqual(span.latitudeDelta, 0.4)
-            XCTAssertEqual(span.longitudeDelta, 0.8)
+            XCTAssertEqual(span.latitudeDelta, 0.8)
+            XCTAssertEqual(span.longitudeDelta, 1.6)
             span = globalLocator.spanFor(code: "4T8 P6M")
-            XCTAssertEqual(span.latitudeDelta, 0.0133, accuracy: 0.0001)
-            XCTAssertEqual(span.longitudeDelta, 0.0266, accuracy: 0.0001)
+            XCTAssertEqual(span.latitudeDelta, 0.0266, accuracy: 0.0001)
+            XCTAssertEqual(span.longitudeDelta, 0.0533, accuracy: 0.0001)
             span = globalLocator.spanFor(code: "8KDB PGFD")
-            XCTAssertEqual(span.latitudeDelta, 0.000444, accuracy: 0.000001)
-            XCTAssertEqual(span.longitudeDelta, 0.000888, accuracy: 0.000001)
+            XCTAssertEqual(span.latitudeDelta, 0.000888, accuracy: 0.000001)
+            XCTAssertEqual(span.longitudeDelta, 0.001777, accuracy: 0.000001)
             span = globalLocator.spanFor(code: "54GZZ NNH00")
-            XCTAssertEqual(span.latitudeDelta, 0.0000148, accuracy: 0.0000001)
-            XCTAssertEqual(span.longitudeDelta, 0.0000296, accuracy: 0.0000001)
+            XCTAssertEqual(span.latitudeDelta, 0.0000296, accuracy: 0.0000001)
+            XCTAssertEqual(span.longitudeDelta, 0.000059259, accuracy: 0.0000001)
         }
     }

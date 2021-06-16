@@ -72,6 +72,20 @@ public class GlobalLocator {
         return codeFor(longitude: location.longitude, latitude: location.latitude)
     }
     
+    public func codeFor(region: MKCoordinateRegion) -> String {
+        let latitudeDiff = (region.span.latitudeDelta / 2.0)
+        let longitudeDiff = (region.span.longitudeDelta / 2.0)
+        return codeFor(
+            location1: CLLocationCoordinate2D(
+                latitude: region.center.latitude - latitudeDiff,
+                longitude: region.center.longitude - longitudeDiff
+            ),
+            location2: CLLocationCoordinate2D(
+                latitude: region.center.latitude + latitudeDiff,
+                longitude: region.center.longitude + longitudeDiff
+            ))
+    }
+    
     public func locationFor(code: String) -> CLLocationCoordinate2D {
         let theCodes = code.split(separator: " ")
         guard theCodes.count == 2 else {
