@@ -210,14 +210,8 @@ public class GlobalLocator {
         let longitudeSize = codeSize(number1: longitude1, number2: longitude2)
         let latitudeSize = codeSize(number1: latitude1, number2: latitude2)
         let theCodeSize = max(longitudeSize, latitudeSize)
-        var longitudeCode = longitudeAverageCode.substring(toIndex: theCodeSize)
-        var latitudeCode = latitudeAverageCode.substring(toIndex: theCodeSize)
-        if longitudeCode.count < latitudeCode.count {
-            longitudeCode = longitudeCode + "0"
-        }
-        if latitudeCode.count < longitudeCode.count {
-            latitudeCode = latitudeCode + "0"
-        }
+        let longitudeCode = longitudeAverageCode.substring(toIndex: theCodeSize)
+        let latitudeCode = latitudeAverageCode.substring(toIndex: theCodeSize)
         return longitudeCode + " " + latitudeCode
     }
 }
