@@ -111,9 +111,13 @@ public class GlobalLocator {
         guard theCodes.count == 2 else {
             return MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         }
+        var span1 = spanFor(codeCount: theCodes[0].count)
+        var span2 = spanFor(codeCount: theCodes[1].count)
+        span1 = min(span1, span2)
+        span2 = span1
         return MKCoordinateSpan(
-            latitudeDelta: spanFor(codeCount: theCodes[0].count),
-            longitudeDelta: spanFor(codeCount: theCodes[1].count)
+            latitudeDelta: span1,
+            longitudeDelta: span2
         )
     }
     
