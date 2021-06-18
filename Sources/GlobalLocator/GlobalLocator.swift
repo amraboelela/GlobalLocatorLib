@@ -80,8 +80,10 @@ public class GlobalLocator {
     }
     
     public func codeFor(region: MKCoordinateRegion) -> String {
-        let latitudeDiff = (region.span.latitudeDelta / 2.0)
-        let longitudeDiff = (region.span.longitudeDelta / 2.0)
+        var latitudeDiff = (region.span.latitudeDelta / 2.0)
+        var longitudeDiff = (region.span.longitudeDelta / 2.0)
+        latitudeDiff = min(latitudeDiff, longitudeDiff)
+        longitudeDiff = latitudeDiff
         return codeFor(
             location1: CLLocationCoordinate2D(
                 latitude: region.center.latitude - latitudeDiff,
