@@ -95,7 +95,7 @@ public class GlobalLocator {
     }
     
     public func locationFor(code: String) -> CLLocationCoordinate2D {
-        let theCodes = code.split(separator: " ")
+        let theCodes = code.uppercased().split(separator: " ")
         guard theCodes.count == 2 else {
             return CLLocationCoordinate2D(latitude: 0, longitude: 0)
         }
@@ -105,7 +105,7 @@ public class GlobalLocator {
     }
     
     public func spanFor(code: String) -> MKCoordinateSpan {
-        let theCodes = code.split(separator: " ")
+        let theCodes = code.uppercased().split(separator: " ")
         guard theCodes.count == 2 else {
             return MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         }

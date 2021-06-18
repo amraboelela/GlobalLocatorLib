@@ -193,6 +193,9 @@
             location = globalLocator.locationFor(code: "H H")
             XCTAssertEqual(location.latitude, 3)
             XCTAssertEqual(location.longitude, 6)
+            location = globalLocator.locationFor(code: "h h")
+            XCTAssertEqual(location.latitude, 3)
+            XCTAssertEqual(location.longitude, 6)
             location = globalLocator.locationFor(code: "ZZZZZ ZZZZZ")
             XCTAssertEqual(location.latitude, 90, accuracy: 0.0001)
             XCTAssertEqual(location.longitude, 180, accuracy: 0.0001)
@@ -226,6 +229,9 @@
             var span = globalLocator.spanFor(code: "4 P")
             XCTAssertEqual(span.latitudeDelta, 48.0)
             XCTAssertEqual(span.longitudeDelta, 48.0)
+            span = globalLocator.spanFor(code: "4 p")
+            XCTAssertEqual(span.latitudeDelta, 48.0)
+            XCTAssertEqual(span.longitudeDelta, 48.0)
             span = globalLocator.spanFor(code: "4T P6")
             XCTAssertEqual(span.latitudeDelta, 1.6)
             XCTAssertEqual(span.longitudeDelta, 1.6)
@@ -241,9 +247,13 @@
         }
         
         func testLocationSpanRegion() {
-            let gl = "GZ RK"
-            let region = MKCoordinateRegion(center: globalLocator.locationFor(code: gl), span: globalLocator.spanFor(code: gl))
-            let currentGL = globalLocator.codeFor(region: region)
+            var gl = "GZ RK"
+            var region = MKCoordinateRegion(center: globalLocator.locationFor(code: gl), span: globalLocator.spanFor(code: gl))
+            var currentGL = globalLocator.codeFor(region: region)
             XCTAssertEqual(gl, currentGL)
+            gl = "Gz rk"
+            region = MKCoordinateRegion(center: globalLocator.locationFor(code: gl), span: globalLocator.spanFor(code: gl))
+            currentGL = globalLocator.codeFor(region: region)
+            XCTAssertEqual(gl.uppercased(), currentGL)
         }
     }
