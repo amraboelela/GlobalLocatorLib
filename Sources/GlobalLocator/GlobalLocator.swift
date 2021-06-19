@@ -130,7 +130,7 @@ public class GlobalLocator {
         for _ in 1..<codeCount {
             unit = unit / Double(codes.count)
         }
-        let span = unit * 4.0
+        let span = unit * 2.0
         spans[codeCount] = span
         return span
     }
@@ -139,7 +139,7 @@ public class GlobalLocator {
         let diff = abs(number2 - number1)
         for i in (2...5).reversed() {
             let span = spanFor(codeCount: i)
-            if diff < span {
+            if diff < span * 1.1 {
                 return i
             }
         }
