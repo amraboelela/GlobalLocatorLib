@@ -183,7 +183,7 @@
                     )
                 )
             ),
-            "4T8 P6M")
+            "4T P6")
         }
         
         func testLocationForCode() {
@@ -227,23 +227,23 @@
         
         func testSpanForCode() {
             var span = globalLocator.spanFor(code: "4 P")
-            XCTAssertEqual(span.latitudeDelta, 48.0)
-            XCTAssertEqual(span.longitudeDelta, 48.0)
+            XCTAssertEqual(span.latitudeDelta, 12.0)
+            XCTAssertEqual(span.longitudeDelta, 12.0)
             span = globalLocator.spanFor(code: "4 p")
-            XCTAssertEqual(span.latitudeDelta, 48.0)
-            XCTAssertEqual(span.longitudeDelta, 48.0)
+            XCTAssertEqual(span.latitudeDelta, 12.0)
+            XCTAssertEqual(span.longitudeDelta, 12.0)
             span = globalLocator.spanFor(code: "4T P6")
-            XCTAssertEqual(span.latitudeDelta, 1.6)
-            XCTAssertEqual(span.longitudeDelta, 1.6)
+            XCTAssertEqual(span.latitudeDelta, 0.8)
+            XCTAssertEqual(span.longitudeDelta, 0.8)
             span = globalLocator.spanFor(code: "4T8 P6M")
-            XCTAssertEqual(span.latitudeDelta, 0.0533, accuracy: 0.0001)
-            XCTAssertEqual(span.longitudeDelta, 0.0533, accuracy: 0.0001)
+            XCTAssertEqual(span.latitudeDelta, 0.04, accuracy: 0.0001)
+            XCTAssertEqual(span.longitudeDelta, 0.04, accuracy: 0.0001)
             span = globalLocator.spanFor(code: "8KDB PGFD")
             XCTAssertEqual(span.latitudeDelta, 0.001777, accuracy: 0.000001)
             XCTAssertEqual(span.longitudeDelta, 0.001777, accuracy: 0.000001)
             span = globalLocator.spanFor(code: "54GZZ NNH00")
-            XCTAssertEqual(span.latitudeDelta, 0.000059259, accuracy: 0.0000001)
-            XCTAssertEqual(span.longitudeDelta, 0.000059259, accuracy: 0.0000001)
+            XCTAssertEqual(span.latitudeDelta, 0.00007407, accuracy: 0.0000001)
+            XCTAssertEqual(span.longitudeDelta, 0.00007407, accuracy: 0.0000001)
         }
         
         func testLocationSpanRegion() {
