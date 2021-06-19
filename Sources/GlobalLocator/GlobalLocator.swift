@@ -139,7 +139,7 @@ public class GlobalLocator {
         let diff = abs(number2 - number1)
         for i in (2...5).reversed() {
             let span = spanFor(codeCount: i)
-            if diff <= span * 9.0 {
+            if diff <= span {
                 return i
             }
         }
@@ -219,5 +219,29 @@ public class GlobalLocator {
         let longitudeCode = longitudeAverageCode.substring(toIndex: theCodeSize)
         let latitudeCode = latitudeAverageCode.substring(toIndex: theCodeSize)
         return longitudeCode + " " + latitudeCode
+    }
+    
+    public func isGLCode(text: String) -> Bool {
+        let codes = text.uppercased().split(separator: " ")
+        if codes.count != 2 {
+            return false
+        }
+        if codes[0].count != codes[1].count {
+            return false
+        }
+        if codes[0].count > 5 {
+            return false
+        }
+        for char in codes[0] {
+            if forbiddenLetters.contains(String(char)) {
+                return false
+            }
+        }
+        for char in codes[1] {
+            if forbiddenLetters.contains(String(char)) {
+                return false
+            }
+        }
+        return true
     }
 }

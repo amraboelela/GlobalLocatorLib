@@ -266,11 +266,14 @@
             region = MKCoordinateRegion(center: globalLocator.locationFor(code: gl), span: globalLocator.spanFor(code: gl))
             currentGL = globalLocator.codeFor(region: region)
             XCTAssertEqual(gl.uppercased(), currentGL)
-            
-            //center: CLLocationCoordinate2D(latitude: 37.34855932425309, longitude: -120.57976355555556)
-            //span: MKCoordinateSpan(latitudeDelta: 0.002123660985084541, longitudeDelta: 0.0017777777777894244)
-            
-            //center: CLLocationCoordinate2D(latitude: 37.348555555555556, longitude: -120.57977777777778)
-            //span: MKCoordinateSpan(latitudeDelta: 0.0017777777777777779, longitudeDelta: 0.0017777777777777779)
+        }
+        
+        func testIsGLCode() {
+            XCTAssertEqual(globalLocator.isGLCode(text: "test"), false)
+            XCTAssertEqual(globalLocator.isGLCode(text: "test TEST"), false)
+            XCTAssertEqual(globalLocator.isGLCode(text: "tst TST"), true)
+            XCTAssertEqual(globalLocator.isGLCode(text: "TST TST"), true)
+            XCTAssertEqual(globalLocator.isGLCode(text: "123 1234"), false)
+            XCTAssertEqual(globalLocator.isGLCode(text: "4xj p6q"), true)
         }
     }
