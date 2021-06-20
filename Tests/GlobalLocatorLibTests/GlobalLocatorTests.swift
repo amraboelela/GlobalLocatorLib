@@ -323,11 +323,13 @@
                 Double(mapItem.placemark.location?.coordinate.longitude ?? 0), -55.8,
                 accuracy: 0.00001
             )
+            XCTAssertEqual(mapItem.name, "GL: BB CC")
             mapItem = globalLocatorLib.mapItemFrom(code: "4V P6")
             XCTAssertEqual(
                 Double(mapItem.placemark.location?.coordinate.longitude ?? 0), -121.39999,
                 accuracy: 0.00001
             )
+            XCTAssertEqual(mapItem.name, "GL: 4V P6")
         }
         
     }

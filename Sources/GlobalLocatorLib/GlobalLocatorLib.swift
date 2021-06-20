@@ -286,7 +286,9 @@ public class GlobalLocatorLib {
         let location = self.locationFor(code: code)
         if #available(iOS 10.0, *) {
             if #available(macOS 10.12, *) {
-                return MKMapItem(placemark: MKPlacemark(coordinate: location))
+                let result = MKMapItem(placemark: MKPlacemark(coordinate: location))
+                result.name = "GL: " + code.uppercased()
+                return result
             } else {
                 // Fallback on earlier versions
                 return MKMapItem()
