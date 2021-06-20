@@ -1,6 +1,6 @@
 //
-//  GlobalLocator.swift
-//  GlobalLocator
+//  GlobalLocatorLib.swift
+//  GlobalLocatorLib
 //
 //  Created by Amr Aboelela on 6/10/21.
 //  Copyright © 2021 Amr Aboelela. All rights reserved.
@@ -11,7 +11,7 @@
 import CoreLocation
 import MapKit
 
-public let globalLocator = GlobalLocator()
+public let globalLocatorLib = GlobalLocatorLib()
 
 
 enum MeasureType {
@@ -19,7 +19,7 @@ enum MeasureType {
     case latitude
 }
 
-public class GlobalLocator {
+public class GlobalLocatorLib {
     
     let codes = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F",
     "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z"]

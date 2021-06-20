@@ -1,6 +1,6 @@
 //
 //  String.swift
-//  GlobalLocator
+//  GlobalLocatorLib
 //
 //  Created by Amr Aboelela on 6/10/21.
 //  Copyright © 2021 Amr Aboelela. All rights reserved.

@@ -1,4 +1,4 @@
-# GlobalLocator
+# GlobalLocatorLib
 
 For more info about GL (Global Locator) aka NAC, check [travelgis](http://www.travelgis.com/map.asp)
 
