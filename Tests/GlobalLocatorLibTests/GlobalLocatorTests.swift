@@ -302,7 +302,7 @@
             globalLocatorLib.regionFor(query: "4080 Lake Tahoe Blvd, South Lake Tahoe, CA", fromRegion: startRegion) { matchingItem, resultRegion in
                 XCTAssertNotNil(matchingItem)
                 XCTAssertEqual(resultRegion.center.longitude, -119.9427048, accuracy: 0.001)
-                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.005, accuracy: 0.001)
+                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.003, accuracy: 0.001)
                 expectation.fulfill()
             }
             wait(for: [expectation], timeout: 2.0)

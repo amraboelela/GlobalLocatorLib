@@ -270,7 +270,7 @@ public class GlobalLocatorLib {
                 if let location = matchingItem.placemark.location?.coordinate {
                     var spanValue = 0.1
                     if self.isAddress(text: query) {
-                        spanValue = 0.005
+                        spanValue = 0.003
                     }
                     resultRegion = MKCoordinateRegion(
                         center: location,
