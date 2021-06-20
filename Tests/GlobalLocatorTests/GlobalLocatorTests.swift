@@ -291,16 +291,24 @@
                 span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
             )
             var expectation = XCTestExpectation(description: "Got query results for Munich")
-            globalLocator.regionFor(query: "Munich", fromRegion: startRegion) { result in
-                XCTAssertEqual(result.center.longitude, 11.575182, accuracy: 0.01)
-                XCTAssertEqual(result.span.latitudeDelta, 0.1, accuracy: 0.01)
+            globalLocator.regionFor(query: "Munich", fromRegion: startRegion) { matchingItem, resultRegion in
+                XCTAssertNotNil(matchingItem)
+                XCTAssertEqual(resultRegion.center.longitude, 11.575182, accuracy: 0.01)
+                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.1, accuracy: 0.01)
                 expectation.fulfill()
             }
             wait(for: [expectation], timeout: 2.0)
             expectation = XCTestExpectation(description: "Got query results for Lake Tahoe address")
-            globalLocator.regionFor(query: "4080 Lake Tahoe Blvd, South Lake Tahoe, CA", fromRegion: startRegion) { result in
-                XCTAssertEqual(result.center.longitude, -119.9427048, accuracy: 0.01)
-                XCTAssertEqual(result.span.latitudeDelta, 0.01, accuracy: 0.01)
+            globalLocator.regionFor(query: "4080 Lake Tahoe Blvd, South Lake Tahoe, CA", fromRegion: startRegion) { matchingItem, resultRegion in
+                XCTAssertNotNil(matchingItem)
+                XCTAssertEqual(resultRegion.center.longitude, -119.9427048, accuracy: 0.01)
+                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.01, accuracy: 0.01)
+                expectation.fulfill()
+            }
+            wait(for: [expectation], timeout: 2.0)
+            expectation = XCTestExpectation(description: "Got query results for not found address")
+            globalLocator.regionFor(query: "1000 Weird st, NotFound AZ", fromRegion: startRegion) { matchingItem, resultRegion in
+                XCTAssertNil(matchingItem)
                 expectation.fulfill()
             }
             wait(for: [expectation], timeout: 2.0)
