@@ -276,4 +276,33 @@
             XCTAssertEqual(globalLocator.isGLCode(text: "123 1234"), false)
             XCTAssertEqual(globalLocator.isGLCode(text: "4xj p6q"), true)
         }
+        
+        func testIsAddress() {
+            XCTAssertEqual(globalLocator.isAddress(text: "test"), false)
+            XCTAssertEqual(globalLocator.isAddress(text: "123 1234"), true)
+            XCTAssertEqual(globalLocator.isAddress(text: "4xj p6q"), false)
+            XCTAssertEqual(globalLocator.isAddress(text: "Merced CA"), false)
+            XCTAssertEqual(globalLocator.isAddress(text: "1090 Alison St, Los Angeles  CA"), true)
+        }
+        
+        func testRegionForQuery() {
+            let startRegion = MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
+                span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+            )
+            var expectation = XCTestExpectation(description: "Got query results for Munich")
+            globalLocator.regionFor(query: "Munich", fromRegion: startRegion) { result in
+                XCTAssertEqual(result.center.longitude, 11.575182, accuracy: 0.01)
+                XCTAssertEqual(result.span.latitudeDelta, 0.1, accuracy: 0.01)
+                expectation.fulfill()
+            }
+            wait(for: [expectation], timeout: 2.0)
+            expectation = XCTestExpectation(description: "Got query results for Lake Tahoe address")
+            globalLocator.regionFor(query: "4080 Lake Tahoe Blvd, South Lake Tahoe, CA", fromRegion: startRegion) { result in
+                XCTAssertEqual(result.center.longitude, -119.9427048, accuracy: 0.01)
+                XCTAssertEqual(result.span.latitudeDelta, 0.01, accuracy: 0.01)
+                expectation.fulfill()
+            }
+            wait(for: [expectation], timeout: 2.0)
+        }
     }

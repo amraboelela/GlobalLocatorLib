@@ -244,4 +244,42 @@ public class GlobalLocator {
         }
         return true
     }
+    
+    func isAddress(text: String) -> Bool {
+        let tokens = text.split(separator: " ")
+        if tokens.count > 0 {
+            return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: String(tokens[0])))
+        }
+        return false
+    }
+    
+    public func regionFor(query: String, fromRegion region: MKCoordinateRegion, callback: @escaping (MKCoordinateRegion) -> Void) {
+        var result = region
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = query
+        request.region = region
+        let search = MKLocalSearch(request: request)
+        search.start { response, _ in
+            guard let response = response else {
+                callback(result)
+                return
+            }
+            let matchingItems = response.mapItems
+            if matchingItems.count > 0 {
+                let matchingItem = matchingItems[0]
+                if let location = matchingItem.placemark.location?.coordinate {
+                    var spanValue = 0.1
+                    if self.isAddress(text: query) {
+                        spanValue = 0.01
+                    }
+                    result = MKCoordinateRegion(
+                        center: location,
+                        span: MKCoordinateSpan(latitudeDelta: spanValue, longitudeDelta: spanValue)
+                    )
+                    callback(result)
+                }
+            }
+        }
+        //return result
+    }
 }
