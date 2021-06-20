@@ -294,15 +294,15 @@
             globalLocatorLib.regionFor(query: "Munich", fromRegion: startRegion) { matchingItem, resultRegion in
                 XCTAssertNotNil(matchingItem)
                 XCTAssertEqual(resultRegion.center.longitude, 11.575182, accuracy: 0.01)
-                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.1, accuracy: 0.01)
+                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.1, accuracy: 0.001)
                 expectation.fulfill()
             }
             wait(for: [expectation], timeout: 2.0)
             expectation = XCTestExpectation(description: "Got query results for Lake Tahoe address")
             globalLocatorLib.regionFor(query: "4080 Lake Tahoe Blvd, South Lake Tahoe, CA", fromRegion: startRegion) { matchingItem, resultRegion in
                 XCTAssertNotNil(matchingItem)
-                XCTAssertEqual(resultRegion.center.longitude, -119.9427048, accuracy: 0.01)
-                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.01, accuracy: 0.01)
+                XCTAssertEqual(resultRegion.center.longitude, -119.9427048, accuracy: 0.001)
+                XCTAssertEqual(resultRegion.span.latitudeDelta, 0.001, accuracy: 0.001)
                 expectation.fulfill()
             }
             wait(for: [expectation], timeout: 2.0)
