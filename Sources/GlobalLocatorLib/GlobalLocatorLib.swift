@@ -281,4 +281,15 @@ public class GlobalLocatorLib {
             }
         }
     }
+    
+    public func mapItemFrom(code: String) -> MKMapItem {
+        let location = self.locationFor(code: code)
+        
+        if #available(macOS 10.12, *) {
+            return MKMapItem(placemark: MKPlacemark(coordinate: location))
+        } else {
+            // Fallback on earlier versions
+            return MKMapItem()
+        }
+    }
 }

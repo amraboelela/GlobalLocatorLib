@@ -307,10 +307,27 @@
             }
             wait(for: [expectation], timeout: 2.0)
             expectation = XCTestExpectation(description: "Got query results for not found address")
-            globalLocatorLib.regionFor(query: "1000 Weird st, NotFound AZ", fromRegion: startRegion) { matchingItem, resultRegion in
+            globalLocatorLib.regionFor(
+                query: "1000 Weird st, NotFound AZ",
+                fromRegion: startRegion
+            ) { matchingItem, resultRegion in
                 XCTAssertNil(matchingItem)
                 expectation.fulfill()
             }
             wait(for: [expectation], timeout: 2.0)
         }
+        
+        func testmapItemFromCode() {
+            var mapItem = globalLocatorLib.mapItemFrom(code: "BB CC")
+            XCTAssertEqual(
+                Double(mapItem.placemark.location?.coordinate.longitude ?? 0), -55.8,
+                accuracy: 0.00001
+            )
+            mapItem = globalLocatorLib.mapItemFrom(code: "4V P6")
+            XCTAssertEqual(
+                Double(mapItem.placemark.location?.coordinate.longitude ?? 0), -121.39999,
+                accuracy: 0.00001
+            )
+        }
+        
     }
