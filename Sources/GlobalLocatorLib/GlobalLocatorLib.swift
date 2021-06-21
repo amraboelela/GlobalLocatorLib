@@ -253,11 +253,13 @@ public class GlobalLocatorLib {
         return false
     }
     
+    var search = MKLocalSearch(request: MKLocalSearch.Request())
+    
     public func regionFor(query: String, fromRegion region: MKCoordinateRegion, callback: @escaping (MKMapItem?, MKCoordinateRegion) -> Void) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
-        //request.region = region
-        let search = MKLocalSearch(request: request)
+        request.region = region
+        search = MKLocalSearch(request: request)
         search.start { response, _ in
             guard let response = response else {
                 callback(nil, region)

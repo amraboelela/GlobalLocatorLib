@@ -317,7 +317,7 @@
             wait(for: [expectation], timeout: 2.0)
         }
         
-        func testmapItemFromCode() {
+        func testMapItemFromCode() {
             var mapItem = globalLocatorLib.mapItemFrom(code: "BB CC")
             XCTAssertEqual(
                 Double(mapItem.placemark.location?.coordinate.longitude ?? 0), -55.8,
