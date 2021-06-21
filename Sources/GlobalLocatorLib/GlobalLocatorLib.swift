@@ -254,14 +254,13 @@ public class GlobalLocatorLib {
     }
     
     public func regionFor(query: String, fromRegion region: MKCoordinateRegion, callback: @escaping (MKMapItem?, MKCoordinateRegion) -> Void) {
-        var resultRegion = region
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         request.region = region
         let search = MKLocalSearch(request: request)
         search.start { response, _ in
             guard let response = response else {
-                callback(nil, resultRegion)
+                callback(nil, region)
                 return
             }
             let matchingItems = response.mapItems
@@ -272,7 +271,7 @@ public class GlobalLocatorLib {
                     if self.isAddress(text: query) {
                         spanValue = 0.003
                     }
-                    resultRegion = MKCoordinateRegion(
+                    let resultRegion = MKCoordinateRegion(
                         center: location,
                         span: MKCoordinateSpan(latitudeDelta: spanValue, longitudeDelta: spanValue)
                     )
