@@ -257,29 +257,25 @@ public class GlobalLocatorLib {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         request.region = region
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.2) {
-            let search = MKLocalSearch(request: request)
-            search.start { response, _ in
-                guard let response = response else {
-                    callback(nil, region)
-                    return
-                }
-                let matchingItems = response.mapItems
-                if matchingItems.count > 0 {
-                    let matchingItem = matchingItems[0]
-                    if let location = matchingItem.placemark.location?.coordinate {
-                        var spanValue = 0.1
-                        if self.isAddress(text: query) {
-                            spanValue = 0.003
-                        }
-                        let resultRegion = MKCoordinateRegion(
-                            center: location,
-                            span: MKCoordinateSpan(latitudeDelta: spanValue, longitudeDelta: spanValue)
-                        )
-                        DispatchQueue.main.async {
-                            callback(matchingItem, resultRegion)
-                        }
+        let search = MKLocalSearch(request: request)
+        search.start { response, _ in
+            guard let response = response else {
+                callback(nil, region)
+                return
+            }
+            let matchingItems = response.mapItems
+            if matchingItems.count > 0 {
+                let matchingItem = matchingItems[0]
+                if let location = matchingItem.placemark.location?.coordinate {
+                    var spanValue = 0.1
+                    if self.isAddress(text: query) {
+                        spanValue = 0.003
                     }
+                    let resultRegion = MKCoordinateRegion(
+                        center: location,
+                        span: MKCoordinateSpan(latitudeDelta: spanValue, longitudeDelta: spanValue)
+                    )
+                    callback(matchingItem, resultRegion)
                 }
             }
         }
