@@ -152,7 +152,7 @@ public class GlobalLocatorLib {
         for _ in 1..<codeCount {
             unit = unit / Double(codes.count)
         }
-        let span = unit * Double(1 + codeCount)
+        let span = unit * 2 //Double(1 + codeCount)
         spans[codeCount] = span
         return span
     }
@@ -319,7 +319,7 @@ public class GlobalLocatorLib {
     public func annotationFor(region: MKCoordinateRegion, mapWidth: CGFloat) -> GLRegion {
         let code = codeFor(region: region)
         let location = locationFor(code: code)
-        let spanValue = spanFor(code: code).longitudeDelta / Double(1 + code.count / 2)
+        let spanValue = spanFor(code: code).longitudeDelta / 2.0 //Double(1 + code.count / 2)
         let resultSpan = CGFloat((spanValue / region.span.longitudeDelta) * Double(mapWidth))
         return GLRegion(id: code, location: location, span: resultSpan)
     }
