@@ -15,8 +15,8 @@ public let globalLocatorLib = GlobalLocatorLib()
 
 public struct GLRegion: Identifiable {
     public let id: String
-    let location: CLLocationCoordinate2D
-    let span: Int
+    public let location: CLLocationCoordinate2D
+    public let span: Int
 }
 
 enum MeasureType {
