@@ -13,6 +13,11 @@ import MapKit
 
 public let globalLocatorLib = GlobalLocatorLib()
 
+public struct GLRegion: Identifiable {
+    public let id: String
+    let location: CLLocationCoordinate2D
+    let span: Int
+}
 
 enum MeasureType {
     case longitude
@@ -21,11 +26,10 @@ enum MeasureType {
 
 public class GlobalLocatorLib {
     
-    let codes = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F",
-    "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z"]
-    let forbiddenLetters: Set<String> = ["A", "E", "I", "O", "U", "Y"]
-    let codeIndexes = ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "B": 10, "C": 11, "D": 12, "F": 13,
-                       "G": 14, "H": 15, "J": 16, "K": 17, "L": 18, "M": 19, "N": 20, "P": 21, "Q": 22, "R": 23, "S": 24, "T": 25, "V": 26, "W": 27, "X": 28, "Z": 29]
+    let codes = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "E", "F",
+    "G", "H", "J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    let forbiddenLetters: Set<String> = ["A", "I", "L", "O"]
+    let codeIndexes = ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "B": 10, "C": 11, "D": 12, "E": 13, "F": 14, "G": 15, "H": 16, "J": 17, "K": 18, "M": 19, "N": 20, "P": 21, "Q": 22, "R": 23, "S": 24, "T": 25, "U": 26, "V": 27, "W": 28, "X": 29, "Y": 30, "Z": 31]
     var spans = [Int:Double]()
     
     func numberFor(code: String, type: MeasureType) -> Double {
@@ -96,8 +100,26 @@ public class GlobalLocatorLib {
         )
     }
     
+    func combine(code1: String, code2: String) -> String {
+        var result = ""
+        for i in 0..<code1.count {
+            result = result + code1[i] + code2[i]
+        }
+        return result
+    }
+    
+    func uncombine(code: String) -> String {
+        var code1 = ""
+        var code2 = ""
+        for i in 0..<code.count/2 {
+            code1 = code1 + code[i*2]
+            code2 = code2 + code[i*2+1]
+        }
+        return code1 + " " + code2
+    }
+    
     public func locationFor(code: String) -> CLLocationCoordinate2D {
-        let theCodes = code.uppercased().split(separator: " ")
+        let theCodes = uncombine(code: code).uppercased().split(separator: " ")
         guard theCodes.count == 2 else {
             return CLLocationCoordinate2D(latitude: 0, longitude: 0)
         }
@@ -107,7 +129,7 @@ public class GlobalLocatorLib {
     }
     
     public func spanFor(code: String) -> MKCoordinateSpan {
-        let theCodes = code.uppercased().split(separator: " ")
+        let theCodes = uncombine(code: code).uppercased().split(separator: " ")
         guard theCodes.count == 2 else {
             return MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         }
@@ -147,7 +169,11 @@ public class GlobalLocatorLib {
     }
     
     func codeFor(longitude: Double, latitude: Double) -> String {
-        return codeFor(number: longitude, type: .longitude) + " " + codeFor(number: latitude, type: .latitude)
+        let result = combine(
+            code1: codeFor(number: longitude, type: .longitude),
+            code2: codeFor(number: latitude, type: .latitude)
+        )
+        return result
     }
     
     func nextLetter(_ letter: String) -> String {
@@ -218,26 +244,18 @@ public class GlobalLocatorLib {
         let theCodeSize = max(longitudeSize, latitudeSize)
         let longitudeCode = longitudeAverageCode.substring(toIndex: theCodeSize)
         let latitudeCode = latitudeAverageCode.substring(toIndex: theCodeSize)
-        return longitudeCode + " " + latitudeCode
+        return combine(code1: longitudeCode, code2: latitudeCode)
     }
     
     public func isGLCode(text: String) -> Bool {
-        let codes = text.uppercased().split(separator: " ")
-        if codes.count != 2 {
+        let code = text.uppercased()
+        if code.count % 2 != 0 {
             return false
         }
-        if codes[0].count != codes[1].count {
+        if code.count > 10 {
             return false
         }
-        if codes[0].count > 5 {
-            return false
-        }
-        for char in codes[0] {
-            if forbiddenLetters.contains(String(char)) {
-                return false
-            }
-        }
-        for char in codes[1] {
+        for char in code {
             if forbiddenLetters.contains(String(char)) {
                 return false
             }
@@ -296,5 +314,13 @@ public class GlobalLocatorLib {
             // Fallback on earlier versions
             return MKMapItem()
         }
+    }
+    
+    public func annotationFor(region: MKCoordinateRegion, mapWidth: Int) -> GLRegion {
+        let code = codeFor(region: region)
+        let location = locationFor(code: code)
+        let spanValue = spanFor(code: code).longitudeDelta / Double(code.count / 2)
+        let resultSpan = Int((spanValue / region.span.longitudeDelta) * Double(mapWidth))
+        return GLRegion(id: code, location: location, span: resultSpan)
     }
 }

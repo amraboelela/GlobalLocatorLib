@@ -1,6 +1,15 @@
 # GlobalLocatorLib
 
-For more info about GL (Global Locator) aka NAC, check [travelgis](http://www.travelgis.com/map.asp)
+- GL (Global Locator) code is Base 32, 2 digits can locate a state, 4 digits can locate a county, 6 digits can locate a street block, 8 digits can locate a house, and 10 digits can locate a person location anywhere in the earth.
 
-## NAC and Universal Address
-A Natural Area Code (NAC) can represent both an area or a location anywhere in the world. A two, four, six, eight or ten character NAC represents respectively an area about 1000km X 700km (like a province), 33km X 23km (like a city), one square kilometer (like a street block), 35m X 25m (like a building) or one square meter anywhere in the world. Since an eight or ten character NAC has reached the resolution of a traditional address, it is also called a Universal Address, for example, NAC: 8KDB PGFD is the Universal Address of Washington Monument. Using a NAC instead of a traditional address to specify a location can reduce 80% of key input, avoid difficulties in inputting addresses with foreign characters, eliminate the needs of address databases and specify all locations no matter whether there are traditional addresses or not. A group of neighboring NACs can be combined into one NAC such as: 8C Q8 plus 8D Q8 plus 8F Q8 can be written as 8C-F Q8. If the character after the hyphen represents a number smaller than the character before the hyphen, it means a rotation, e.g., 8CX-2 Q8S represents 8CX Q8S plus 8CZ Q8S plus 8D1 Q8S plus 8D2 Q8S (note there are no vowels: A, E, I, O, U, Y in any NAC). A NAC like 8C0-Z Q8D can be simplified to 8C Q8D. Therefore, a NAC can be used to represent various rectangular areas anywhere in the world. 
+- GL code uses the format X0Y0X1Y1X2Y2X3Y3, as X0X1X2X3 is the GL Base 32 mapping of the longitude, and Y0Y1Y2Y3 is the GL Base 32 mapping of the latitude.
+
+- GL locations starts from the south pole, from the Pacific ocean, hence California starts with `5` (x axis), then the more east you go and the higher the number, e.g., Florida starts with `8`, Cairo `K`, and China, `U`.
+
+- GL uses the alphanumeric characters except ["A", "I", "L", "O"]
+
+- GL code is case insensitive, i.e. it can be in small letters or in capital letters.
+
+- GL codes can enable sorting by location, as e.g. locations in most of California starts with `5Q`, while Florida locations starts with `8N`
+
+- The difference between Florida and California is 3 digits and the difference in time zone is 3 hours, which means the difference in GL digits can give indication of roughly how much difference in time zone and distance. One digit different from the left is about 750 miles.
