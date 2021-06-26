@@ -152,7 +152,7 @@ public class GlobalLocatorLib {
         for _ in 1..<codeCount {
             unit = unit / Double(codes.count)
         }
-        let span = unit * 3.0 //Double(1 + codeCount)
+        let span = unit * 3.0
         spans[codeCount] = span
         return span
     }
