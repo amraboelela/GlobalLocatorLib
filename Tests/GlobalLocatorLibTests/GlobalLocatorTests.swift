@@ -415,9 +415,10 @@
         }
         
         func testAnnotationForRegion() {
+            let mapSize = CGSize(width: 400, height: 800)
             var annotation = globalLocatorLib.annotationFor(
                 region: californiaRegion,
-                mapWidth: 400
+                mapSize: mapSize
             )
             XCTAssertEqual(
                 annotation.location.longitude,
@@ -426,7 +427,7 @@
             )
             XCTAssertEqual(annotation.span.width, 687, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: sanJoseRegion, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: sanJoseRegion, mapSize: mapSize)
             XCTAssertEqual(
                 annotation.location.longitude,
                 sanJoseRegion.center.longitude,
@@ -434,7 +435,7 @@
             )
             XCTAssertEqual(annotation.span.width, 77, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: losAngelesRegion, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: losAngelesRegion, mapSize: CGSize(width: 400, height: 800))
             XCTAssertEqual(
                 annotation.location.longitude,
                 losAngelesRegion.center.longitude,
@@ -442,7 +443,7 @@
             )
             XCTAssertEqual(annotation.span.width, 298, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: floridaRegion, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: floridaRegion, mapSize: mapSize)
             XCTAssertEqual(
                 annotation.location.longitude,
                 floridaRegion.center.longitude,
@@ -450,7 +451,7 @@
             )
             XCTAssertEqual(annotation.span.width, 683, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: johnnyDeppRegion, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: johnnyDeppRegion, mapSize: mapSize)
             XCTAssertEqual(
                 annotation.location.longitude,
                 johnnyDeppRegion.center.longitude,
@@ -458,7 +459,7 @@
             )
             XCTAssertEqual(annotation.span.width, 89, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: johnnyDeppZ1Region, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: johnnyDeppZ1Region, mapSize: mapSize)
             XCTAssertEqual(
                 annotation.location.longitude,
                 johnnyDeppZ1Region.center.longitude,
@@ -466,7 +467,7 @@
             )
             XCTAssertEqual(annotation.span.width, 183, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: johnnyDeppZ2Region, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: johnnyDeppZ2Region, mapSize: mapSize)
             XCTAssertEqual(
                 annotation.location.longitude,
                 johnnyDeppZ2Region.center.longitude,
@@ -474,7 +475,7 @@
             )
             XCTAssertEqual(annotation.span.width, 366, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: cairoRegion, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: cairoRegion, mapSize: mapSize)
             XCTAssertEqual(
                 annotation.location.longitude,
                 cairoRegion.center.longitude,
@@ -482,7 +483,7 @@
             )
             XCTAssertEqual(annotation.span.width, 299, accuracy: 1)
             
-            annotation = globalLocatorLib.annotationFor(region: beijingRegion, mapWidth: 400)
+            annotation = globalLocatorLib.annotationFor(region: beijingRegion, mapSize: mapSize)
             XCTAssertEqual(
                 annotation.location.longitude,
                 beijingRegion.center.longitude,
