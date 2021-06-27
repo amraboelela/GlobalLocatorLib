@@ -317,7 +317,7 @@ public class GlobalLocatorLib {
         let location = locationFor(code: code)
         let span = spanFor(code: code)
         let resultSpan = MKCoordinateSpan(
-            latitudeDelta: span.latitudeDelta / Double(1 + code.count / 2),
+            latitudeDelta: span.latitudeDelta / Double(1 + code.count / 2) / 2.0,
             longitudeDelta: span.longitudeDelta / Double(1 + code.count / 2)
         )
         let resultSpanSize = CGSize(
