@@ -6,7 +6,7 @@
 
 - GL locations starts from the south pole, from the Pacific ocean, hence California starts with `5` (x axis), then the more east you go and the higher the number, e.g., Florida starts with `8`, Cairo `K`, and China, `U`.
 
-- GL uses the alphanumeric characters except ["A", "I", "L", "O"]
+- GL uses all the alphanumeric characters except ["I", "L", "O", "P"]
 
 - GL code is case insensitive, i.e. it can be in small letters or in capital letters.
 

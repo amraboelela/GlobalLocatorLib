@@ -14,7 +14,7 @@
                 globalLocatorLib.codeFor(
                     location: CLLocationCoordinate2D(latitude: 0, longitude: 0)
                 ),
-                "HH"
+                "GG"
             )
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
@@ -35,7 +35,7 @@
                             longitude: -118.2
                         )
                 ),
-                "5QG1TZ5QJW"
+                "5QF1TZ5QHW"
             )
             // Washington DC
             XCTAssertEqual(
@@ -46,7 +46,7 @@
                             longitude: -77.03533333333331
                         )
                 ),
-                "9Q4XW72MBE"
+                "9Q4XW72KAD"
             )
             // New York
             XCTAssertEqual(
@@ -57,7 +57,7 @@
                             longitude: -73.8
                         )
                 ),
-                "9RF72JJ6XP"
+                "9RE72HH6XN"
             )
             // London
             XCTAssertEqual(
@@ -68,7 +68,7 @@
                             longitude: -0.1275
                         )
                 ),
-                "GTZ5N0DMNB"
+                "FTZ5M0CKMA"
             )
             // Cairo, Egypt
             XCTAssertEqual(
@@ -79,7 +79,7 @@
                             longitude: 31.39999999999999
                         )
                 ),
-                "KPTCB73J46"
+                "JNTBA73H46"
             )
             // Delhi, India
             XCTAssertEqual(
@@ -90,7 +90,7 @@
                             longitude: 77.39999999999998
                         )
                 ),
-                "QPW3583PUM"
+                "QNW3583NUK"
             )
             // Beijing, China
             XCTAssertEqual(
@@ -101,24 +101,24 @@
                             longitude: 116.4
                         )
                 ),
-                "URC22ZZKKC"
+                "URB22ZZJJB"
             )
         }
         
         func testCodeForLocation1Location2() {
-            // State of California
+            // California
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 33.229, longitude: -124.362),
                     location2: CLLocationCoordinate2D(latitude: 42.520, longitude: -117.814)),
                 "5Q"
             )
-            // City of San Jose, CA
+            // San Jose
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 37.250, longitude: -122.002),
                     location2: CLLocationCoordinate2D(latitude: 37.420, longitude: -121.797)),
-                "5Q5N"
+                "5Q5M"
             )
             // Los Angeles
             XCTAssertEqual(
@@ -126,49 +126,49 @@
                     location1: CLLocationCoordinate2D(latitude: 33.917, longitude: -118.434),
                     location2: CLLocationCoordinate2D(latitude: 34.292, longitude: -117.963)
                 ),
-                "5QG2"
+                "5QF2"
             )
-            // State of Florida
+            // Florida
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 25.055, longitude: -85.275),
                     location2: CLLocationCoordinate2D(latitude: 31.042, longitude: -78.694)),
-                "8N"
+                "8M"
             )
             // Johnny Depp's Private Island
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 24.336, longitude: -76.612),
                     location2: CLLocationCoordinate2D(latitude: 24.377, longitude: -76.563)),
-                "9N6B"
+                "9M6A"
             )
             // Johnny Depp's Private Island zoom 1
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 24.344, longitude: -76.596),
                     location2: CLLocationCoordinate2D(latitude: 24.367, longitude: -76.572)),
-                "9N6B5J"
+                "9M6A5H"
             )
             // Johnny Depp's Private Island zoom 2
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 24.350, longitude: -76.588),
                     location2: CLLocationCoordinate2D(latitude: 24.362, longitude: -76.576)),
-                "9N6B5J"
+                "9M6A5H"
             )
             // Cairo, Egypt
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 29.913, longitude: 31.169),
                     location2: CLLocationCoordinate2D(latitude: 30.302, longitude: 31.638)),
-                "KPTC"
+                "JNTB"
             )
             // Beijing, China
             XCTAssertEqual(
                 globalLocatorLib.codeFor(
                     location1: CLLocationCoordinate2D(latitude: 30.110, longitude: 119.971),
                     location2: CLLocationCoordinate2D(latitude: 30.501, longitude: 120.434)),
-                "UPPD"
+                "UNNC"
             )
         }
         
@@ -243,14 +243,14 @@
         
         func testCodeForRegion() {
             XCTAssertEqual(globalLocatorLib.codeFor(region: californiaRegion), "5Q")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: sanJoseRegion), "5Q5N")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: losAngelesRegion), "5QG2")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: floridaRegion), "8N")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: johnnyDeppRegion), "9N6B")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: johnnyDeppZ1Region), "9N6B5J")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: johnnyDeppZ2Region), "9N6B5J")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: cairoRegion), "KPTC")
-            XCTAssertEqual(globalLocatorLib.codeFor(region: beijingRegion), "UPPD")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: sanJoseRegion), "5Q5M")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: losAngelesRegion), "5QF2")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: floridaRegion), "8M")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: johnnyDeppRegion), "9M6A")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: johnnyDeppZ1Region), "9M6A5H")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: johnnyDeppZ2Region), "9M6A5H")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: cairoRegion), "JNTB")
+            XCTAssertEqual(globalLocatorLib.codeFor(region: beijingRegion), "UNNC")
         }
         
         func testLocationForCode() {
@@ -258,36 +258,36 @@
             XCTAssertEqual(location.latitude, -87.1875)
             XCTAssertEqual(location.longitude, -174.375)
             location = globalLocatorLib.locationFor(code: "HH")
-            XCTAssertEqual(location.latitude, 2.8125)
-            XCTAssertEqual(location.longitude, 5.625)
+            XCTAssertEqual(location.latitude, 8.4375)
+            XCTAssertEqual(location.longitude, 16.875)
             location = globalLocatorLib.locationFor(code: "hh")
-            XCTAssertEqual(location.latitude, 2.8125)
-            XCTAssertEqual(location.longitude, 5.625)
+            XCTAssertEqual(location.latitude, 8.4375)
+            XCTAssertEqual(location.longitude, 16.875)
             location = globalLocatorLib.locationFor(code: "ZZZZZZZZZZ")
             XCTAssertEqual(location.latitude, 90, accuracy: 0.0001)
             XCTAssertEqual(location.longitude, 180, accuracy: 0.0001)
             // San Jose
-            location = globalLocatorLib.locationFor(code: "5Q5N")
+            location = globalLocatorLib.locationFor(code: "5Q5M")
             XCTAssertEqual(location.latitude, 37.353515625, accuracy: 0.0001)
             XCTAssertEqual(location.longitude, -121.81640625, accuracy: 0.0001)
             // Washington DC
-            location = globalLocatorLib.locationFor(code: "9Q4XW72MBE")
+            location = globalLocatorLib.locationFor(code: "9Q4XW72KAD")
             XCTAssertEqual(location.latitude, 38.88944238424301, accuracy: 0.0001)
             XCTAssertEqual(location.longitude, -77.03533351421356, accuracy: 0.0001)
             // New York
-            location = globalLocatorLib.locationFor(code: "9RF72JJ6XP")
-            XCTAssertEqual(location.latitude, 40.69999784231186, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, -73.79999935626984, accuracy: 0.0001)
+            location = globalLocatorLib.locationFor(code: "9RE72JJ6XQ")
+            XCTAssertEqual(location.latitude, 40.70549637079239, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, -73.79965603351593, accuracy: 0.0001)
             // Cairo, Egypt
-            location = globalLocatorLib.locationFor(code: "KPSB")
-            XCTAssertEqual(location.latitude, 29.970703125, accuracy: 0.0001)
-            XCTAssertEqual(location.longitude, 31.11328125, accuracy: 0.0001)
+            location = globalLocatorLib.locationFor(code: "JNTB")
+            XCTAssertEqual(location.latitude, 30.146484375, accuracy: 0.0001)
+            XCTAssertEqual(location.longitude, 31.46484375, accuracy: 0.0001)
             // Delhi, India
-            location = globalLocatorLib.locationFor(code: "QPW3583PUM")
+            location = globalLocatorLib.locationFor(code: "QNW3583NUK")
             XCTAssertEqual(location.latitude, 28.699998557567596, accuracy: 0.0001)
             XCTAssertEqual(location.longitude, 77.3999959230423, accuracy: 0.0001)
             // Beijing, China
-            location = globalLocatorLib.locationFor(code: "UPPD")
+            location = globalLocatorLib.locationFor(code: "UNNC")
             XCTAssertEqual(location.latitude, 30.322265625, accuracy: 0.0001)
             XCTAssertEqual(location.longitude, 120.05859375, accuracy: 0.0001)
         }
@@ -353,7 +353,8 @@
             XCTAssertEqual(globalLocatorLib.isGLCode(text: "tstTST"), true)
             XCTAssertEqual(globalLocatorLib.isGLCode(text: "TSTTST"), true)
             XCTAssertEqual(globalLocatorLib.isGLCode(text: "1231234"), false)
-            XCTAssertEqual(globalLocatorLib.isGLCode(text: "4xjp6q"), true)
+            XCTAssertEqual(globalLocatorLib.isGLCode(text: "4xjp6q"), false)
+            XCTAssertEqual(globalLocatorLib.isGLCode(text: "4xja6q"), true)
         }
         
         func testIsAddress() {
@@ -400,14 +401,14 @@
             var mapItem = globalLocatorLib.mapItemFrom(code: "BBCC")
             XCTAssertEqual(
                 Double(mapItem.placemark.location?.coordinate.longitude ?? 0),
-                -63.45703125,
+                -51.85546875,
                 accuracy: 0.00001
             )
             XCTAssertEqual(mapItem.name, "BBCC")
             mapItem = globalLocatorLib.mapItemFrom(code: "4VP6")
             XCTAssertEqual(
                 Double(mapItem.placemark.location?.coordinate.longitude ?? 0),
-                -127.44140625,
+                -134.82421875,
                 accuracy: 0.00001
             )
             XCTAssertEqual(mapItem.name, "4VP6")
