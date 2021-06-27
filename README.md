@@ -1,6 +1,6 @@
 # GlobalLocatorLib
 
-- GL (Global Locator) code is Base 32, 2 digits can locate a state, 4 digits can locate a county, 6 digits can locate a street block, 8 digits can locate a house, and 10 digits can locate a person location anywhere in the earth.
+- GL (Global Locator) code is Base 32, 2 digits can locate a state, 4 digits can locate a city, 6 digits can locate a street block, 8 digits can locate a house, and 10 digits can locate a person location anywhere in the earth.
 
 - GL code uses the format X0Y0X1Y1X2Y2X3Y3, as X0X1X2X3 is the GL Base 32 mapping of the longitude, and Y0Y1Y2Y3 is the GL Base 32 mapping of the latitude.
 
