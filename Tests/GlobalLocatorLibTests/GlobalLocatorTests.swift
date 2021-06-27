@@ -294,22 +294,22 @@
         
         func testSpanForCode() {
             var span = globalLocatorLib.spanFor(code: "5Q")
-            XCTAssertEqual(span.latitudeDelta, 22.5)
+            XCTAssertEqual(span.latitudeDelta, 11.25)
             XCTAssertEqual(span.longitudeDelta, 22.5)
             span = globalLocatorLib.spanFor(code: "5q")
-            XCTAssertEqual(span.latitudeDelta, 22.5)
+            XCTAssertEqual(span.latitudeDelta, 11.25)
             XCTAssertEqual(span.longitudeDelta, 22.5)
             span = globalLocatorLib.spanFor(code: "5TQ6")
-            XCTAssertEqual(span.latitudeDelta, 1.0546875)
+            XCTAssertEqual(span.latitudeDelta, 0.52734375)
             XCTAssertEqual(span.longitudeDelta, 1.0546875)
             span = globalLocatorLib.spanFor(code: "4T8Q6M")
-            XCTAssertEqual(span.latitudeDelta, 0.0439453125, accuracy: 0.0001)
+            XCTAssertEqual(span.latitudeDelta, 0.02197265625, accuracy: 0.0001)
             XCTAssertEqual(span.longitudeDelta, 0.0439453125, accuracy: 0.0001)
             span = globalLocatorLib.spanFor(code: "8KDBQGFD")
-            XCTAssertEqual(span.latitudeDelta, 0.00171661376953125, accuracy: 0.000001)
+            XCTAssertEqual(span.latitudeDelta, 0.0008583068, accuracy: 0.000001)
             XCTAssertEqual(span.longitudeDelta, 0.00171661376953125, accuracy: 0.000001)
             span = globalLocatorLib.spanFor(code: "54GZZNNH00")
-            XCTAssertEqual(span.latitudeDelta, 0.00006437301, accuracy: 0.0000001)
+            XCTAssertEqual(span.latitudeDelta, 0.000032186508, accuracy: 0.0000001)
             XCTAssertEqual(span.longitudeDelta, 0.00006437301, accuracy: 0.0000001)
         }
         

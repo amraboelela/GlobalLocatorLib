@@ -133,13 +133,10 @@ public class GlobalLocatorLib {
         guard theCodes.count == 2 else {
             return MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         }
-        var span1 = spanFor(codeCount: theCodes[0].count)
-        var span2 = spanFor(codeCount: theCodes[1].count)
-        span1 = min(span1, span2)
-        span2 = span1
+        let span = spanFor(codeCount: theCodes[0].count)
         return MKCoordinateSpan(
-            latitudeDelta: span1,
-            longitudeDelta: span2
+            latitudeDelta: span / 2.0,
+            longitudeDelta: span
         )
     }
     
