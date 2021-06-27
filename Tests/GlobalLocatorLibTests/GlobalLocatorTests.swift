@@ -424,7 +424,7 @@
                 californiaRegion.center.longitude,
                 accuracy: 3
             )
-            XCTAssertEqual(annotation.span, 687, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 687, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: sanJoseRegion, mapWidth: 400)
             XCTAssertEqual(
@@ -432,7 +432,7 @@
                 sanJoseRegion.center.longitude,
                 accuracy: 1
             )
-            XCTAssertEqual(annotation.span, 77, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 77, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: losAngelesRegion, mapWidth: 400)
             XCTAssertEqual(
@@ -440,7 +440,7 @@
                 losAngelesRegion.center.longitude,
                 accuracy: 1
             )
-            XCTAssertEqual(annotation.span, 298, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 298, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: floridaRegion, mapWidth: 400)
             XCTAssertEqual(
@@ -448,7 +448,7 @@
                 floridaRegion.center.longitude,
                 accuracy: 3
             )
-            XCTAssertEqual(annotation.span, 683, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 683, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: johnnyDeppRegion, mapWidth: 400)
             XCTAssertEqual(
@@ -456,7 +456,7 @@
                 johnnyDeppRegion.center.longitude,
                 accuracy: 1
             )
-            XCTAssertEqual(annotation.span, 89, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 89, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: johnnyDeppZ1Region, mapWidth: 400)
             XCTAssertEqual(
@@ -464,7 +464,7 @@
                 johnnyDeppZ1Region.center.longitude,
                 accuracy: 1
             )
-            XCTAssertEqual(annotation.span, 183, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 183, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: johnnyDeppZ2Region, mapWidth: 400)
             XCTAssertEqual(
@@ -472,7 +472,7 @@
                 johnnyDeppZ2Region.center.longitude,
                 accuracy: 1
             )
-            XCTAssertEqual(annotation.span, 366, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 366, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: cairoRegion, mapWidth: 400)
             XCTAssertEqual(
@@ -480,7 +480,7 @@
                 cairoRegion.center.longitude,
                 accuracy: 1
             )
-            XCTAssertEqual(annotation.span, 299, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 299, accuracy: 1)
             
             annotation = globalLocatorLib.annotationFor(region: beijingRegion, mapWidth: 400)
             XCTAssertEqual(
@@ -488,7 +488,7 @@
                 beijingRegion.center.longitude,
                 accuracy: 1
             )
-            XCTAssertEqual(annotation.span, 303, accuracy: 1)
+            XCTAssertEqual(annotation.span.width, 303, accuracy: 1)
         }
         
     }

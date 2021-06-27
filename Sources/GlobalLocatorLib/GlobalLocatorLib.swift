@@ -16,7 +16,7 @@ public let globalLocatorLib = GlobalLocatorLib()
 public struct GLRegion: Identifiable {
     public let id: String
     public let location: CLLocationCoordinate2D
-    public let span: CGFloat
+    public let span: CGSize
 }
 
 enum MeasureType {
@@ -318,6 +318,10 @@ public class GlobalLocatorLib {
         let location = locationFor(code: code)
         let spanValue = spanFor(code: code).longitudeDelta / Double(1 + code.count / 2)
         let resultSpan = CGFloat((spanValue / region.span.longitudeDelta) * Double(mapWidth))
-        return GLRegion(id: code, location: location, span: resultSpan)
+        return GLRegion(
+            id: code,
+            location: location,
+            span: CGSize(width: resultSpan, height: resultSpan / 2.0)
+        )
     }
 }
