@@ -134,7 +134,7 @@ public class GlobalLocatorLib {
         }
         let span = spanFor(codeCount: code.count / 2)
         return MKCoordinateSpan(
-            latitudeDelta: span / 2.0,
+            latitudeDelta: span,
             longitudeDelta: span
         )
     }
@@ -315,14 +315,19 @@ public class GlobalLocatorLib {
     public func annotationFor(region: MKCoordinateRegion, mapSize: CGSize) -> GLRegion {
         let code = codeFor(region: region)
         let location = locationFor(code: code)
-        let spanLongitudeDelta = spanFor(code: code).longitudeDelta / Double(1 + code.count / 2)
-        let resultSpanWidth = CGFloat((spanLongitudeDelta / region.span.longitudeDelta) * Double(mapSize.width))
-        let spanLatitudeDelta = spanFor(code: code).latitudeDelta / Double(1 + code.count / 2)
-        let resultSpanHeight = CGFloat((spanLatitudeDelta / region.span.latitudeDelta) * Double(mapSize.height))
+        let span = spanFor(code: code)
+        let resultSpan = MKCoordinateSpan(
+            latitudeDelta: span.latitudeDelta / Double(1 + code.count / 2),
+            longitudeDelta: span.longitudeDelta / Double(1 + code.count / 2)
+        )
+        let resultSpanSize = CGSize(
+            width: CGFloat((resultSpan.longitudeDelta / region.span.longitudeDelta) * Double(mapSize.width)),
+            height: CGFloat((resultSpan.latitudeDelta / region.span.latitudeDelta) * Double(mapSize.height))
+        )
         return GLRegion(
             id: code,
             location: location,
-            span: CGSize(width: resultSpanWidth, height: resultSpanHeight)
+            span: resultSpanSize
         )
     }
 }
