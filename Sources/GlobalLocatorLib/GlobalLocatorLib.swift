@@ -23,6 +23,12 @@ public struct GLRegion: Identifiable {
     public let id: String
     public let location: CLLocationCoordinate2D
     public let span: CGSize
+    
+    public init(id: String, location: CLLocationCoordinate2D, span: CGSize) {
+        self.id = id
+        self.location = location
+        self.span = span
+    }
 }
 
 enum MeasureType {
