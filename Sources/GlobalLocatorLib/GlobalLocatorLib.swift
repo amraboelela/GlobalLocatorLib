@@ -280,6 +280,9 @@ public class GlobalLocatorLib {
     }
     
     public func regionFor(query: String, fromRegion region: MKCoordinateRegion, callback: @escaping (MKMapItem?, MKCoordinateRegion) -> Void) {
+        #if os(watchOS)
+        return callback(nil, region)
+        #else
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         request.region = region
@@ -305,23 +308,17 @@ public class GlobalLocatorLib {
                 }
             }
         }
+        #endif
     }
     
+    @available(macOS 10.12, *)
+    @available(iOS 10.0, *)
+    @available(watchOS 3.0, *)
     public func mapItemFrom(code: String) -> MKMapItem {
         let location = self.locationFor(code: code)
-        if #available(iOS 10.0, *) {
-            if #available(macOS 10.12, *) {
-                let result = MKMapItem(placemark: MKPlacemark(coordinate: location))
-                result.name = code.uppercased()
-                return result
-            } else {
-                // Fallback on earlier versions
-                return MKMapItem()
-            }
-        } else {
-            // Fallback on earlier versions
-            return MKMapItem()
-        }
+        let result = MKMapItem(placemark: MKPlacemark(coordinate: location))
+        result.name = code.uppercased()
+        return result
     }
     
     public func annotationFor(region: MKCoordinateRegion, mapSize: CGSize) -> GLRegion {

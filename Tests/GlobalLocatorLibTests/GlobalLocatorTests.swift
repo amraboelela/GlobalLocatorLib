@@ -366,6 +366,7 @@
         }
         
         func testRegionForQuery() {
+            #if !os(watchOS)
             let startRegion = MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
                 span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
@@ -395,8 +396,11 @@
                 expectation.fulfill()
             }
             wait(for: [expectation], timeout: 2.0)
+            #endif
         }
         
+        @available(watchOS 3.0, *)
+        @available(iOS 10.0, *)
         func testMapItemFromCode() {
             var mapItem = globalLocatorLib.mapItemFrom(code: "BBCC")
             XCTAssertEqual(
