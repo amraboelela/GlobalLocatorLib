@@ -330,10 +330,14 @@ public class GlobalLocatorLib {
             latitudeDelta: span.latitudeDelta / Double(1 + code.count / 2) / 2.0,
             longitudeDelta: span.longitudeDelta / Double(1 + code.count / 2)
         )
-        let averageDelta = (region.span.longitudeDelta + region.span.latitudeDelta) / 2.0
+        var longitudeDelta = region.span.longitudeDelta
+        if mapSize.width > mapSize.height &&
+            abs(region.span.longitudeDelta - region.span.latitudeDelta) < 0.01 {
+            longitudeDelta = region.span.latitudeDelta * mapSize.width / mapSize.height
+        }
         let resultSpanSize = CGSize(
-            width: CGFloat((resultSpan.longitudeDelta / averageDelta) * Double(mapSize.width)),
-            height: CGFloat((resultSpan.latitudeDelta / averageDelta) * Double(mapSize.height))
+            width: CGFloat((resultSpan.longitudeDelta / longitudeDelta) * Double(mapSize.width)),
+            height: CGFloat((resultSpan.latitudeDelta / region.span.latitudeDelta) * Double(mapSize.height))
         )
         return GLRegion(
             id: code,
