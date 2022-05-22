@@ -333,7 +333,7 @@ public class GlobalLocatorLib {
         var longitudeDelta = region.span.longitudeDelta
         if mapSize.width > mapSize.height &&
             abs(region.span.longitudeDelta - region.span.latitudeDelta) < 0.01 {
-            longitudeDelta = region.span.latitudeDelta * mapSize.width / mapSize.height * 0.6
+            longitudeDelta = region.span.latitudeDelta * mapSize.width / mapSize.height * 1.9
         }
         let resultSpanSize = CGSize(
             width: CGFloat((resultSpan.longitudeDelta / longitudeDelta) * Double(mapSize.width)),
