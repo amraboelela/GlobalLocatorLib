@@ -322,6 +322,7 @@ public class GlobalLocatorLib {
     }
     
     public func annotationFor(region: MKCoordinateRegion, mapSize: CGSize) -> GLRegion {
+        print("region: \(region), mapSize: \(mapSize)")
         let code = codeFor(region: region)
         let location = locationFor(code: code)
         let span = spanFor(code: code)
