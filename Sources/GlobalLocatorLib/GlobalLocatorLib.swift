@@ -146,7 +146,7 @@ public class GlobalLocatorLib {
         }
         let span = spanFor(codeCount: code.count / 2)
         return MKCoordinateSpan(
-            latitudeDelta: span,
+            latitudeDelta: span / 2.0,
             longitudeDelta: span
         )
     }
