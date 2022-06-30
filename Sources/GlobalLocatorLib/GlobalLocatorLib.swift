@@ -10,6 +10,7 @@
 
 import CoreLocation
 import MapKit
+import SwiftEncrypt
 
 public let globalLocatorLib = GlobalLocatorLib()
 
@@ -37,11 +38,6 @@ enum MeasureType {
 }
 
 public class GlobalLocatorLib {
-    
-    let codes = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F",
-    "G", "H", "J", "K", "M", "N", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-    let forbiddenLetters: Set<String> = ["I", "L", "O", "P"]
-    let codeIndexes = ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15, "G": 16, "H": 17, "J": 18, "K": 19, "M": 20, "N": 21, "Q": 22, "R": 23, "S": 24, "T": 25, "U": 26, "V": 27, "W": 28, "X": 29, "Y": 30, "Z": 31]
     var spans = [Int:Double]()
     
     func numberFor(code: String, type: MeasureType) -> Double {
@@ -49,19 +45,19 @@ public class GlobalLocatorLib {
             return -1.0
         }
         let max = type == .longitude ? 180.0 : 90.0
-        var unit = max * 2 / Double(codes.count)
+        var unit = max * 2 / Double(String.base32Codes.count)
         var char = code[0]
-        var decimalIndex = Double(codeIndexes[char] ?? 0)
+        var decimalIndex = Double(String.base32DecodeMap[char] ?? 0)
         var diff = decimalIndex * unit
         var result = diff - max
         for i in 1..<code.count {
             char = code[i]
-            decimalIndex = Double(codeIndexes[char] ?? 0)
-            unit = unit / Double(codes.count)
+            decimalIndex = Double(String.base32DecodeMap[char] ?? 0)
+            unit = unit / Double(String.base32Codes.count)
             diff = decimalIndex * unit
-            result = result + diff
+            result += diff
         }
-        result = result + unit / 2.0
+        result += unit / 2.0
         return result
     }
     
@@ -69,23 +65,23 @@ public class GlobalLocatorLib {
         let max = type == .longitude ? 180.0 : 90.0
         var diff = number + max
         var ratio = diff / (max * 2)
-        var decimalIndex = ratio * Double(codes.count)
+        var decimalIndex = ratio * Double(String.base32Codes.count)
         var index = Int(decimalIndex)
-        if index >= codes.count {
-            index = codes.count - 1
+        if index >= String.base32Codes.count {
+            index = String.base32Codes.count - 1
         }
-        var code = codes[index]
-        var result = code
+        //var code = String.base32Codes[index]
+        var result = String.base32Codes[index]
         diff = decimalIndex - Double(index)
         while diff > 0.0 && result.count < 5 {
             ratio = diff / 1.0
-            decimalIndex = ratio * Double(codes.count)
+            decimalIndex = ratio * Double(String.base32Codes.count)
             index = Int(decimalIndex)
-            if index >= codes.count {
-                index = codes.count - 1
+            if index >= String.base32Codes.count {
+                index = String.base32Codes.count - 1
             }
-            code = codes[index]
-            result = result + code
+            //code = String.base32Codes[index]
+            result += String.base32Codes[index]
             diff = decimalIndex - Double(index)
         }
         return result
@@ -115,7 +111,7 @@ public class GlobalLocatorLib {
     func combine(code1: String, code2: String) -> String {
         var result = ""
         for i in 0..<code1.count {
-            result = result + code1[i] + code2[i]
+            result += code1[i] + code2[i]
         }
         return result
     }
@@ -156,9 +152,9 @@ public class GlobalLocatorLib {
             return span
         }
         let max = 360.0
-        var unit = max / Double(codes.count)
+        var unit = max / Double(String.base32Codes.count)
         for _ in 1..<codeCount {
-            unit = unit / Double(codes.count)
+            unit = unit / Double(String.base32Codes.count)
         }
         let span = unit * Double(codeCount + 1)
         spans[codeCount] = span
@@ -184,28 +180,6 @@ public class GlobalLocatorLib {
         return result
     }
     
-    func nextLetter(_ letter: String) -> String {
-
-        // Check if string is build from exactly one Unicode scalar:
-        guard let uniCode = UnicodeScalar(letter) else {
-            return ""
-        }
-        switch uniCode {
-        case "0" ..< "Z":
-            if let unicodeScalar = UnicodeScalar(uniCode.value + 1) {
-                let nextChar = String(unicodeScalar)
-                if forbiddenLetters.contains(nextChar) {
-                    return nextLetter(nextChar)
-                } else {
-                    return nextChar
-                }
-            }
-        default:
-            break
-        }
-        return ""
-    }
-    
     func mergeCodes(code1: String, code2: String, averageCode: String) -> String {
         var result = ""
         var char1 = ""
@@ -215,7 +189,7 @@ public class GlobalLocatorLib {
                 char1 = code1[i]
                 char2 = code2[i]
                 if char1 == char2 {
-                    result = result + char1
+                    result += char1
                 } else {
                     break
                 }
@@ -225,14 +199,15 @@ public class GlobalLocatorLib {
             var theCode = averageCode[result.count]
             if result.count + 1 < averageCode.count {
                 let nextChar = averageCode[result.count + 1]
-                if let index = codeIndexes[nextChar], index > codes.count / 2 {
+                if let index = String.base32DecodeMap[nextChar], index > String.base32Codes.count / 2 {
                     let char = averageCode[result.count]
-                    if let charIndex = codeIndexes[char], charIndex < codes.count - 1 {
-                        theCode = codes[charIndex + 1]
+                    if let charIndex = String.base32DecodeMap[char],
+                        charIndex < String.base32Codes.count - 1 {
+                        theCode = String.base32Codes[charIndex + 1]
                     }
                 }
             }
-            result = result + theCode
+            result += theCode
         }
         return result
     }
@@ -264,7 +239,7 @@ public class GlobalLocatorLib {
             return false
         }
         for char in code {
-            if forbiddenLetters.contains(String(char)) {
+            if String.base32ForbiddenLetters.contains(String(char)) {
                 return false
             }
         }
