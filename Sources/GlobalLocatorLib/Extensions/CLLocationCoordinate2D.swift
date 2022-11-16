@@ -29,6 +29,13 @@ extension CLLocationCoordinate2D: Equatable {
         )
     }
     
+    static public func /(lhs: Self, rhs: Double) -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lhs.latitude / rhs,
+            longitude: lhs.longitude / rhs
+        )
+    }
+    
     public var distance: Double {
         return sqrt(self.latitude*self.latitude + self.longitude * self.longitude)
     }

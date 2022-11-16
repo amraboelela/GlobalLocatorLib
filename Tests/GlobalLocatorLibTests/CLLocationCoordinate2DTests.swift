@@ -26,6 +26,12 @@ final class CLLocationCoordinate2DTests: XCTestCase {
         XCTAssertEqual(location2 - location1, CLLocationCoordinate2D(latitude: 2, longitude: 1))
     }
     
+    func testDivide() {
+        let location1 = CLLocationCoordinate2D(latitude: 2, longitude: 8)
+        let retio = 2.0
+        XCTAssertEqual(location1 / retio, CLLocationCoordinate2D(latitude: 1, longitude: 4))
+    }
+    
     func testDistance() {
         let location1 = CLLocationCoordinate2D(latitude: 1, longitude: 2)
         XCTAssertEqual(location1.distance, sqrt(1+4))
