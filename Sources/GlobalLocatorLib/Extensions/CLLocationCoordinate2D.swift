@@ -29,6 +29,10 @@ extension CLLocationCoordinate2D: Equatable {
         )
     }
     
+    public var distance: Double {
+        return sqrt(self.latitude*self.latitude + self.longitude * self.longitude)
+    }
+    
     public func friendlyDirectionTo(location: CLLocationCoordinate2D) -> String? {
         if self == location {
             return nil
