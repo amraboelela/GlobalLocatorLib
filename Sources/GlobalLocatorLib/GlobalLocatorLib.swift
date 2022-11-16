@@ -14,12 +14,6 @@ import SwiftEncrypt
 
 public let globalLocatorLib = GlobalLocatorLib()
 
-extension CLLocationCoordinate2D: Equatable {
-    static public func ==(lhs: Self, rhs: Self) -> Bool {
-        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
-    }
-}
-
 public struct GLRegion: Identifiable {
     public let id: String
     public let location: CLLocationCoordinate2D
@@ -254,7 +248,11 @@ public class GlobalLocatorLib {
         return false
     }
     
-    public func regionFor(query: String, fromRegion region: MKCoordinateRegion, callback: @escaping (MKMapItem?, MKCoordinateRegion) -> Void) {
+    public func regionFor(
+        query: String,
+        fromRegion region: MKCoordinateRegion,
+        callback: @escaping (MKMapItem?, MKCoordinateRegion) -> Void
+    ) {
         #if os(watchOS)
         return callback(nil, region)
         #else
