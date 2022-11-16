@@ -15,24 +15,10 @@ extension CLLocationCoordinate2D: Equatable {
         return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
     
-    func friendlyDirectionTo(location: CLLocationCoordinate2D) -> String? {
+    public func friendlyDirectionTo(location: CLLocationCoordinate2D) -> String? {
         if self == location {
             return nil
         }
-        /*if self.longitude == location.longitude {
-            if location.latitude > self.latitude {
-                return "N"
-            } else {
-                return "S"
-            }
-        }
-        if self.latitude == location.latitude {
-            if location.longitude > self.longitude {
-                return "E"
-            } else {
-                return "W"
-            }
-        }*/
         let tan_22_5 = 0.41421356237
         var x = location.longitude - self.longitude
         var y = location.latitude - self.latitude
