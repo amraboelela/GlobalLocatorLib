@@ -14,6 +14,18 @@ final class CLLocationCoordinate2DTests: XCTestCase {
         XCTAssertNotEqual(location1, location2)
     }
     
+    func testPlus() {
+        let location1 = CLLocationCoordinate2D(latitude: 1, longitude: 2)
+        let location2 = CLLocationCoordinate2D(latitude: 3, longitude: 3)
+        XCTAssertEqual(location1 + location2, CLLocationCoordinate2D(latitude: 4, longitude: 5))
+    }
+    
+    func testMinus() {
+        let location1 = CLLocationCoordinate2D(latitude: 1, longitude: 2)
+        let location2 = CLLocationCoordinate2D(latitude: 3, longitude: 3)
+        XCTAssertEqual(location2 - location1, CLLocationCoordinate2D(latitude: 2, longitude: 1))
+    }
+    
     func testFriendlyDirection() {
         let location1 = CLLocationCoordinate2D(latitude: 28.092, longitude: 34.432)
         var location2 = CLLocationCoordinate2D(latitude: 28.093, longitude: 34.432)
