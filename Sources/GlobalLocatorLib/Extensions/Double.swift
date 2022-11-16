@@ -12,7 +12,7 @@ import Foundation
 
 extension Double {
 
-    var friendlyDirection: String {
+    public var friendlyDirection: String {
         if self > 360 - 22.5 || self < 22.5 {
             return "N"
         } else if self < 90 - 22.5 {
