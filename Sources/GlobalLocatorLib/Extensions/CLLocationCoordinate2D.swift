@@ -33,13 +33,13 @@ extension CLLocationCoordinate2D: Equatable {
         return sqrt(self.latitude*self.latitude + self.longitude * self.longitude)
     }
     
-    public func friendlyDirectionTo(location: CLLocationCoordinate2D) -> String? {
-        if self == location {
+    public var friendlyDirection: String? {
+        if self.longitude == 0 && self.latitude == 0 {
             return nil
         }
         let tan_22_5 = 0.41421356237
-        var x = location.longitude - self.longitude
-        var y = location.latitude - self.latitude
+        var x = self.longitude
+        var y = self.latitude
         if x >= 0 {
             if y >= 0 {
                 if y < x {
@@ -104,6 +104,9 @@ extension CLLocationCoordinate2D: Equatable {
                 }
             }
         }
-        //return "N"
+    }
+    
+    public func friendlyDirectionTo(location: CLLocationCoordinate2D) -> String? {
+        return (location - self).friendlyDirection
     }
 }

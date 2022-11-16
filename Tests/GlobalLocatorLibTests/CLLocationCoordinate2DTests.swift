@@ -32,6 +32,17 @@ final class CLLocationCoordinate2DTests: XCTestCase {
     }
     
     func testFriendlyDirection() {
+        var direction1 = CLLocationCoordinate2D(latitude: 28.092, longitude: 34.432)
+        XCTAssertEqual(direction1.friendlyDirection, "NE")
+        direction1 = CLLocationCoordinate2D(latitude: 28.092, longitude: -34.432)
+        XCTAssertEqual(direction1.friendlyDirection, "NW")
+        direction1 = CLLocationCoordinate2D(latitude: -28.092, longitude: 34.431)
+        XCTAssertEqual(direction1.friendlyDirection, "SE")
+        direction1 = CLLocationCoordinate2D(latitude: 28.095, longitude: 0)
+        XCTAssertEqual(direction1.friendlyDirection, "N")
+    }
+    
+    func testFriendlyDirectionTo() {
         let location1 = CLLocationCoordinate2D(latitude: 28.092, longitude: 34.432)
         var location2 = CLLocationCoordinate2D(latitude: 28.093, longitude: 34.432)
         XCTAssertEqual(location1.friendlyDirectionTo(location: location2), "N")
@@ -50,4 +61,5 @@ final class CLLocationCoordinate2DTests: XCTestCase {
         location2 = CLLocationCoordinate2D(latitude: 28.095, longitude: 34.433)
         XCTAssertEqual(location1.friendlyDirectionTo(location: location2), "N")
     }
+    
 }
